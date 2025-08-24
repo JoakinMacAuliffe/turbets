@@ -19,6 +19,12 @@ body {
   background-image: url(https://cdn.wallpapersafari.com/70/25/H6lJk1.jpg);
 }
 
+/* Spacers */
+
+.spacer {
+  height: 2rem;
+}
+
 /* Estructura del header */
 
 header,
@@ -97,8 +103,8 @@ header,
   margin-right: auto;
   padding: 2rem 2.5rem;
 
-  height: 600px;
-  width: 400px;
+  height: 38rem;
+  width: 22rem;
   gap: 1rem;
 }
 
@@ -110,10 +116,28 @@ header,
   background-color: black;
 
   color: goldenrod; 
+  box-shadow: 0 2px 5px black;
 
   border: 2px solid goldenrod;
   border-radius: 10px;
 
   height: 2rem;
   width: 20rem;
+}
+
+.campo-texto-label {
+  color: goldenrod;
+  font-size: 1.3rem;
+  text-shadow: 0 2px 5px black;
+}
+
+.boton-registrarse {
+  display: flex;
+  background: black;
+
+  margin-top: 1rem;
+  
+  height: 3rem;
+  width: 10rem;
+
 }
