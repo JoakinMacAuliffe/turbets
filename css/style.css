@@ -1,0 +1,62 @@
+body {
+
+  margin: 0;
+  height: 100vh;
+
+  background-color: black;
+
+}
+
+/* Estructura del header */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 2rem;
+  background: black;
+  box-shadow: 0 2px 5px rgba(0, 0, 2, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 2px solid;
+  border-color: goldenrod;
+}
+
+/* Botones del header */
+
+.nav {
+  display: flex;
+  margin-left: auto;
+  gap: 1.5rem;
+}
+
+/* Boton de iniciar sesion */
+
+.header-button {
+  display: flex;
+  background: goldenrod;
+  padding: 10px;
+  border-radius: 15px;
+
+  font-family: "Geologica", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings: "slnt" 0, "CRSV" 0, "SHRP" 0;
+
+  text-decoration: none;
+  color: black;
+}
+
+.header-button:hover {
+  background-color: #a17621;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+/* Fuente de los botones */
