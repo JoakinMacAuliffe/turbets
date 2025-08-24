@@ -1,30 +1,40 @@
 body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 
   margin: 0;
+  padding: 0;
   height: 100vh;
 
-  background-color: black;
-
+  background-image: url(https://cdn.wallpapersafari.com/70/25/H6lJk1.jpg);
 }
 
 /* Estructura del header */
 
+header,
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.8rem 2rem;
+  padding: 1rem 2rem;
   background: black;
-  box-shadow: 0 2px 5px rgba(0, 0, 2, 0.3);
-  position: sticky;
+  /* box-shadow: 0 2px 5px rgba(0, 0, 2, 0.3); */
+  position: fixed;
   top: 0;
-  z-index: 100;
 
   border-top: none;
   border-left: none;
   border-right: none;
   border-bottom: 2px solid;
   border-color: goldenrod;
+  box-shadow: 0 5px 10px goldenrod;
+
+  width: 100%;
+  height: 3%;
+
+  margin-right: 10px;
 }
 
 /* Botones del header */
@@ -32,7 +42,7 @@ body {
 .nav {
   display: flex;
   margin-left: auto;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 /* Boton del header */
@@ -57,4 +67,39 @@ body {
   background-color: #a17621;
   transition: 0.3s;
   cursor: pointer;
+}
+
+/* Contenedor para la pantalla de registro */
+
+.registro-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+
+  border: 2px solid goldenrod;
+  border-radius: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 5, 0.5);
+
+  margin-left: auto;
+  margin-right: auto;
+
+  height: 600px;
+  width: 400px;
+}
+
+/* Campos de login/registro */
+
+.campo-texto {
+  display: flex;
+
+  background-color: black;
+
+  border: 2px solid goldenrod;
+  border-radius: 10px;
+
+  height: 25px;
+  width: 250px;
 }
