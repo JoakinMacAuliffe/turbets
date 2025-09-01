@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Nabla&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Geologica:wght@100..900&family=Nabla&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Nabla&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Geologica:wght@100..900&family=Nabla&display=swap");
 
 * {
   font-family: "Geologica", sans-serif;
@@ -19,11 +19,11 @@ body {
   padding: 0;
   height: 100vh;
 
-  background-color: black;
+  background-color: #212121;
 
   /* background-image: url(https://cdn.wallpapersafari.com/70/25/H6lJk1.jpg); */
 
-  background-image: url(https://eatmagazine.ca/wp-content/uploads/2025/07/casino-quebec.webp  );
+  /* background-image: url(https://eatmagazine.ca/wp-content/uploads/2025/07/casino-quebec.webp); */
 }
 
 input {
@@ -36,15 +36,20 @@ input {
   height: 1.5rem;
 }
 
+.separator {
+  width: 330px;
+  border: 2px 2px goldenrod;
+  
+}
+
 /* Estructura del header */
 
 header,
 .header {
-
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
+  padding: 25px 2rem;
   background: black;
   /* box-shadow: 0 2px 5px rgba(0, 0, 2, 0.3); */
   position: fixed;
@@ -60,7 +65,7 @@ header,
   width: 100%;
   height: 3%;
 
-  margin-right: 10px;
+  margin-right: 15px;
 }
 
 /* Botones izquierda header */
@@ -79,32 +84,28 @@ header,
   transition: box-shadow 0.3s, color 0.3s;
 
   cursor: pointer;
-
+  text-decoration: 0;
 }
 
 .header-left-button:hover {
   box-shadow: 0 6px #daa520;
 }
 
-
 /* Logo del header */
 
 .header-logo {
   display: flex;
   margin-left: 20px;
-  
+
   font-family: "Nabla", system-ui;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
-  font-variation-settings:
-    "EDPT" 100,
-    "EHLT" 12;
+  font-variation-settings: "EDPT" 100, "EHLT" 12;
   font-size: xx-large;
 
   cursor: pointer;
   text-decoration: 0;
-
 }
 
 /* Botones derecha header */
@@ -138,7 +139,7 @@ header,
   cursor: pointer;
 }
 
-/* Contenedor para la pantalla de registro */
+/* Contenedores */
 
 .container {
   display: flex;
@@ -153,7 +154,6 @@ header,
   border: 2px solid goldenrod;
   border-radius: 20px;
   box-shadow: 0 2px 5px rgba(0, 0, 5, 0.5);
-
 }
 
 .container-registro {
@@ -166,6 +166,14 @@ header,
   gap: 0.8rem;
 }
 
+.container-landing {
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: 300px;
+  padding: 20px 20px;
+  gap: 10px;
+}
+
 /* Campos de login/registro */
 
 .campo-texto {
@@ -173,7 +181,7 @@ header,
 
   background-color: black;
 
-  color: goldenrod; 
+  color: goldenrod;
   box-shadow: 0 2px 5px black;
 
   border: 2px solid goldenrod;
@@ -196,24 +204,46 @@ header,
   text-shadow: 0 2px 5px black;
 }
 
-/* Boton de registrarse */
+/* Botones */
+
+.olvidar-password-button {
+  color: goldenrod;
+  font-size: 16px;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.iniciar-sesion-landing-button {
+  background: linear-gradient(90deg, goldenrod, #ffda7a);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s, color 0.3s;
+  border: none;
+  
+  font-size: 18px;
+  height: 50px;
+  width: 330px;
+
+}
+
+.iniciar-sesion-landing-button:hover {
+  color: #855f00;
+  box-shadow: 0 0 12px #ac8010;
+}
+
 
 .registrarse-button {
-
-  background: linear-gradient(90deg, goldenrod, #FFDA7A);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  background: linear-gradient(90deg, goldenrod, #ffda7a);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   transition: box-shadow 0.3s, color 0.3s;
   border: none;
 
   font-size: 1.5rem;
   height: 6rem;
   width: 12rem;
-
 }
 
 .registrarse-button:hover {
-  color: #855F00;
-  box-shadow: 0 0 12px #AC8010;
+  color: #855f00;
+  box-shadow: 0 0 12px #ac8010;
 }
-
-
