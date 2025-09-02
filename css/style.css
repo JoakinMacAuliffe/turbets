@@ -247,3 +247,26 @@ header,
   color: #855f00;
   box-shadow: 0 0 12px #ac8010;
 }
+
+/* side bar*/
+
+
+  
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -200px;
+    width: 200px;
+    height: 100%;
+    background: #222;
+    color: white;
+    transition: left 0.3s ease;
+    padding: 1rem;
+  }
+
+  .sidebar:hover {
+    left: 0; /* slides in when hovered */
+  }
+
+
+
