@@ -19,7 +19,7 @@ body {
   padding: 0;
   height: 100vh;
 
-  background-color: #212121;
+  background-color: rgb(3, 8, 0);
 
   /* background-image: url(https://cdn.wallpapersafari.com/70/25/H6lJk1.jpg); */
 
@@ -50,7 +50,7 @@ header,
   justify-content: space-between;
   align-items: center;
   padding: 25px 2rem;
-  background: black;
+  background: rgb(0, 0, 0);
   /* box-shadow: 0 2px 5px rgba(0, 0, 2, 0.3); */
   position: fixed;
   top: 0;
@@ -151,7 +151,7 @@ header,
   background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(15px);
 
-  border: 2px solid goldenrod;
+  border: 2px solid #5e5e5e;
   border-radius: 20px;
   box-shadow: 0 2px 5px rgba(0, 0, 5, 0.5);
 }
@@ -174,6 +174,41 @@ header,
   gap: 10px;
 }
 
+.ruleta-container {
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2rem 2.5rem;
+  height: 150px;
+  width: 150px;
+  gap: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Quita el background-image */
+}
+
+.ruleta-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px; /* opcional */
+}
+
+.super-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px; /* Espacio entre la ruleta y otros elementos */
+
+  background-color: transparent;
+  border: olive;
+  border-radius: 20px;
+}
+
+
+
 /* Campos de login/registro */
 
 .campo-texto {
@@ -181,7 +216,7 @@ header,
 
   background-color: black;
 
-  color: goldenrod;
+  color: #5e5e5e;
   box-shadow: 0 2px 5px black;
 
   border: 2px solid goldenrod;
@@ -250,15 +285,13 @@ header,
 
 /* side bar*/
 
-
-  
   .sidebar {
     position: fixed;
-    top: 0;
+    top: 80px;
     left: -200px;
     width: 200px;
     height: 100%;
-    background: #222;
+    background: black;
     color: white;
     transition: left 0.3s ease;
     padding: 1rem;
@@ -266,6 +299,19 @@ header,
 
   .sidebar:hover {
     left: 0; /* slides in when hovered */
+  }
+
+  .side-list{
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  color: goldenrod;
+  font-size: 16px;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  
+
   }
 
 
