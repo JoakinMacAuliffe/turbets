@@ -279,8 +279,33 @@ header,
   background-color: transparent;
   border: 0;
   cursor: pointer;
-  
+  margin-bottom: 25px;
+  margin-top: 10px;
+  }
 
+  /*.titulo-side-list{
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  color: goldenrod;
+  font-size: 16px;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  margin-bottom: 25px;
+  margin-top: 10px;
+  }*/
+
+  .sidebar-transacciones{
+    position: fixed;
+    top: 80px;
+    left: 0px;
+    width: 200px;
+    height: 100%;
+    background: black;
+    color: white;
+    transition: left 0.3s ease;
+    padding: 1rem;
   }
 
 
@@ -343,4 +368,48 @@ header,
 .ruleta-list .ruleta-link .ruleta-button:hover{
   background: #5372F0;
   color:#fff;
+}
+
+.busqueda-trans{
+  margin-left: 100px;
+}
+
+.titulo-transferencia{
+  margin-left: 100px;
+  color: #e6e6e6;
+}
+
+.contenido{
+  border-collapse: collapse;
+  margin-left: 100px;
+  font-size: 0.9em;
+  min-width: 1500px;
+  background-color: #ffffff;
+  margin-bottom: 300px;
+}
+
+.contenido thead tr{
+  background-color: goldenrod;
+  color:#ffffff;
+  text-align: left;
+  font-weight: bold;
+}
+
+.contenido th .contenido td{
+  padding: 12px 15px;
+}
+
+.content-table tbody tr{
+  border-bottom: 1px solid #dddddd;
+}
+
+.nombre-texto{
+  color:#e6e6e6;
+}
+
+/*No esta funcionando*/
+
+.content-table tbody tr:nth-of-type(even){
+  background-color: #666262;
+  border-bottom: 2px solid goldenrod;
 }
