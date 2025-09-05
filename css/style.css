@@ -250,8 +250,6 @@ header,
 
 /* side bar*/
 
-
-  
   .sidebar {
     position: fixed;
     top: 0;
@@ -262,7 +260,7 @@ header,
     color: white;
     transition: left 0.3s ease;
     padding: 1rem;
-  }
+  }/
 
   .sidebar:hover {
     left: 0; /* slides in when hovered */
