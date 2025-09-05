@@ -277,8 +277,26 @@ header,
   background-color: transparent;
   border: 0;
   cursor: pointer;
-  margin: auto;
+  margin: 10px;
   
+  
+  }
+
+  .side-list-title{
+    font-size: 23px; 
+    text-align: center;
+    position: relative;
+    color: goldenrod;
+  }
+
+  .side-list-title:after{
+    content: '';
+    display: block;
+    width: 200px;
+    height: 2px;
+    background: goldenrod;
+    position:absolute;
+    margin-top: 10px;
   }
 
   .sidebar-transacciones{
