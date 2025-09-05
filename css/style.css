@@ -254,11 +254,11 @@ header,
   
   .sidebar {
     position: fixed;
-    top: 0;
+    top: 80px;
     left: -200px;
     width: 200px;
     height: 100%;
-    background: #222;
+    background: black;
     color: white;
     transition: left 0.3s ease;
     padding: 1rem;
@@ -268,6 +268,20 @@ header,
     left: 0; /* slides in when hovered */
   }
 
+  .side-list{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  color: goldenrod;
+  font-size: 16px;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  margin: auto;
+  
+  }
+
+  /* Fin side bar */
 
 body.info_app {
   
@@ -304,3 +318,67 @@ body.info_app {
   font-size: 12px;
   margin-top: 100px;
 }
+
+/* Ruleta */
+
+.ruleta-list .ruleta-item .ruleta-link{
+  width : 400px;
+  display: block;
+  background: #fff;
+  padding: 18px;
+  border-radius: 12px;
+  text-decoration: none;
+  border: 2px solid transparent;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.05);
+  transition: 0.2s ease;
+}
+
+.ruleta-list .ruleta-item .ruleta-link:hover{
+  border-color:#5372F0;
+}
+
+.ruleta-list .ruleta-item{
+  list-style: none;
+}
+
+.ruleta-list .ruleta-link .ruleta-img{
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  border-radius: 10px; /* opcional */
+}
+
+.ruleta-list .ruleta-link .badge{
+  color:#5372F0;
+  padding: 8px 16px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin: 16px 0 18px;
+  background: #DDE4FF;
+}
+
+.ruleta-list .ruleta-link .ruleta-title{
+  font-size: 1.19rem;
+  color:#000;
+  font-weight: 600;;
+}
+
+.ruleta-list .ruleta-link .ruleta-button{
+  height: 35px;
+  width: 35px;
+  color:#5372F0;
+  border-radius: 50%;
+  margin: 30px 0 5px;
+  background: none;
+  cursor: pointer;
+  border:2px solid #5372F0;
+  transform: rotate(-45deg);
+  transition: 0.4s ease;
+}
+
+.ruleta-list .ruleta-link .ruleta-button:hover{
+  background: #5372F0;
+  color:#fff;
+}
+
+/* Fin Ruleta */
