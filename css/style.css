@@ -166,14 +166,6 @@ header,
   gap: 0.8rem;
 }
 
-.container-landing {
-  margin-top: 50px;
-  margin-left: auto;
-  margin-right: 300px;
-  padding: 20px 20px;
-  gap: 10px;
-}
-
 /* Campos de login/registro */
 
 .campo-texto {
@@ -260,7 +252,7 @@ header,
     color: white;
     transition: left 0.3s ease;
     padding: 1rem;
-  }/
+  }
 
   .sidebar:hover {
     left: 0; /* slides in when hovered */
@@ -525,4 +517,40 @@ body.info_app {
   position: absolute;
   top:30px;
   right:30px;
+}
+
+/* Fin contenedor de juego */
+
+/* Imagen de fondo */
+
+.fondo{
+  background-image: url("/imagenes/casino.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  
+
+  min-height: 50vh;
+  width: 80%;
+
+  display: flex;               
+  align-items: center;         
+  justify-content: center;     
+  text-align: center;         
+  color: white;  
+}
+
+.Titulo{
+  font-family: "Honk", system-ui;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings:
+    "MORF" 15,
+    "SHLN" 50;
+}
+
+.Titulo{
+
+  font-size: 50px;
 }
