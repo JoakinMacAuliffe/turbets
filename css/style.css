@@ -461,3 +461,54 @@ body.info_app {
 }
 
 /*Fin tabla transacciones*/
+
+/* Contenedor de Juego */
+
+.juego-container{
+  display: block;
+  justify-content: center;
+  width: 1000px;
+  height: 500px;
+  padding: 18px;
+  background: transparent;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.05);
+  position: relative;
+}
+
+.juego-img{
+  width: 100%;
+  object-fit: cover;
+  border-radius: 10px; /* opcional */
+}
+
+.juego-boton{
+  top: 100%;
+  right: 100%;
+}
+
+.juego-container .juego-data1{
+  position:absolute;
+  top:30px;
+  left:40px;
+  
+}
+
+.juego-container .juego-data2{
+  position:absolute;
+  top:30px;
+  left:500px;
+}
+
+.juego-container .juego-data3{
+  position:absolute;
+  bottom: 20px;
+  right:100px
+}
+
+.juego-container .juego-boton{
+  position: absolute;
+  top:30px;
+  right:30px;
+}
