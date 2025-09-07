@@ -588,3 +588,16 @@ body.info_app {
   color:#929090;
 }
 
+
+.imagen-perfil{
+  background-image: url("/imagenes/12225881.png");
+  background-position: center;
+  background-size: cover;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  position: relative;
+}
+
+
+
