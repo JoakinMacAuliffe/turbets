@@ -14,7 +14,6 @@
       <a href="/pages/info-app.html" class="header-left-button">¿Quiénes somos?</a>
     </nav>
     <nav class="nav">
-      <a class="button header-button">Test Button</a>
       <a href="/pages/registro.html" class="button header-button">Registrarse</a>
       <a href="/pages/acceso.html" class="button header-button">Iniciar Sesión</a>
     </nav>
@@ -22,6 +21,8 @@
 
   <body>
     <div class="container container-registro">
+      
+      <form action="/pages/perfil.html" method="get">
       <label class="campo-texto-label" for="username">Nombre Completo</label>
       <input
         class="campo-texto"
@@ -29,6 +30,7 @@
         id="fullname"
         name="fullname"
         placeholder="Ingrese su nombre completo"
+        required
       />
       <label class="campo-texto-label" for="username">Nombre de usuario</label>
       <input
@@ -37,6 +39,7 @@
         id="username"
         name="username"
         placeholder="Ingrese su nombre de usuario"
+        required
       />
       <label class="campo-texto-label" for="email">Correo electrónico</label>
       <input
@@ -45,6 +48,7 @@
         id="email"
         name="email"
         placeholder="Ingrese su correo electrónico"
+        required
       />
       <label class="campo-texto-label" for="password">Contraseña</label>
       <input
@@ -53,6 +57,7 @@
         id="password"
         name="password"
         placeholder="Contraseña"
+        required
       />
       <label class="campo-texto-label" for="password"
         >Confirme su contraseña</label
@@ -63,6 +68,7 @@
         id="password"
         name="password-confirm"
         placeholder="Escriba nuevamente su contraseña"
+        required
       />
       <label class="campo-texto-label" for="fecha-nacimiento"
         >Fecha de nacimiento</label
@@ -73,11 +79,12 @@
         id="fecha-nacimiento"
         name="fecha-nacimiento"
         placeholder=""
+        required
       />
       <div class="spacer"></div>
-      <button class="button registrarse-button" type="submit">
-        Registrarse
-      </button>
+      <button type="submit" class="button registrarse-button">
+        Registrarse </button>
+    </form>
     </div>
   </body>
 </html>
