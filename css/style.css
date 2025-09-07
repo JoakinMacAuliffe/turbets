@@ -274,6 +274,7 @@ header,
   border: 0;
   cursor: pointer;
   margin: 10px;
+  text-align: left;
   
   
   }
@@ -715,3 +716,121 @@ body.info_app {
   color:goldenrod;
 }
 
+/*Container de Deposito*/
+
+.container-deposito{
+  width: 500px;
+  height: 500px;
+  background-color: rgba(0, 0, 0, 0.74);
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  border: 5px solid goldenrod;
+  border-radius: 12px; 
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  margin-right: 25px;
+  margin-left: 25px;
+}
+
+.trans-ret {
+  text-align: center;
+  background: goldenrod;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  width: 300px;               
+}
+
+.trans-ret h1 h3 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.form-trans {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-trans label {
+  font-weight: bold;
+  text-align: left;
+  color: #444;
+}
+
+.form-trans input[type="number"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.form-trans input[type="submit"] {
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  background:  rgba(0, 0, 0, 0.74);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.form-trans input[type="submit"]:hover {
+  background:  rgb(0, 0, 0);
+}
+
+/* Fin Container Deposito */
+
+/*Container Estado*/
+
+.flexbox{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.Estadisticas {
+  flex: 1;
+  max-width: 300px;
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.Estadisticas h1 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #333;
+  border-bottom: 2px solid #ddd; 
+  padding-bottom: 5px;
+}
+
+.Estadisticas p {
+  font-size: 16px;
+  margin: 0 0 15px 0;
+  color: #555;
+}
+
+.Estadisticas ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+
+.Estadisticas li {
+  font-size: 15px;
+  padding: 8px 12px;
+  margin-bottom: 6px;
+  background: #f4f4f4;
+  border-radius: 6px;
+  color: #444;
+  transition: background 0.3s ease;
+}
+
+.Estadisticas li:hover {
+  background: #e0e0e0;
+}
