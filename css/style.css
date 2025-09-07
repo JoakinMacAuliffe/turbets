@@ -425,12 +425,23 @@ body.info_app {
   color:#fff;
 }
 
+.ruleta-container{
+  position: absolute;
+  right: 10%;
+}
+
 /* Fin Ruleta */
 
 /* Tabla de transacciones */
 
+.transacciones-container{
+  margin-right: 900px;
+  margin-bottom: 500px;
+}
+
 .busqueda-trans{
   margin-left: 100px;
+  position: relative;
 }
 
 .titulo-transferencia{
@@ -443,8 +454,9 @@ body.info_app {
   margin-left: 100px;
   font-size: 0.9em;
   min-width: 1500px;
-  background-color: #ffffff;
+  background-color: #bebebe;
   margin-bottom: 300px;
+  position: absolute;
 }
 
 .contenido thead tr{
@@ -454,26 +466,57 @@ body.info_app {
   font-weight: bold;
 }
 
-.contenido th .contenido td{
+.contenido th, .contenido td{
   padding: 12px 15px;
 }
 
-.content-table tbody tr{
-  border-bottom: 1px solid #dddddd;
+.contenido tbody tr{
+  border-bottom: 1px solid black;
 }
 
 .nombre-texto{
   color:#e6e6e6;
 }
 
-/*No esta funcionando*/
-
-.content-table tbody tr:nth-of-type(even){
-  background-color: #666262;
-  border-bottom: 2px solid goldenrod;
+.contenido tbody tr:nth-of-type(even){
+  background-color: #8d8888;
+  
 }
 
 /*Fin tabla transacciones*/
+/*Tabla Ruleta*/
+
+.contenido-ruleta{
+  border-collapse: collapse;
+  margin-top: 1500px;
+  align-items: center;
+  font-size: 0.9em;
+  width: 1500px;
+  height: auto;
+  background-color: #bebebe;
+  margin-bottom: 300px;
+  position: relative;
+  border-radius: 2%;
+}
+
+.contenido-ruleta thead tr{
+  background-color: goldenrod;
+  color: #ffffff;
+  text-align: left;
+  font-weight: bold;
+}
+
+.contenido-ruleta th, .contenido-ruleta td{
+  padding: 12px 15px;
+}
+
+.contenido-ruleta tbody tr:nth-of-type(even){
+  background-color: #8d8888;
+}
+
+.contenido-ruleta tbody tr{
+  border-bottom: 1px solid black;
+}
 
 /* Contenedor de Juego */
 
@@ -633,5 +676,14 @@ body.info_app {
   position: relative;
 }
 
+.Juego-Responsable{
+  width: 900px;
+  height: 600px;
+  margin-bottom: 100px;
+  position: absolute;
+  left: 5%;
+}
 
-
+.titulo-responsable{
+  color:goldenrod;
+}
