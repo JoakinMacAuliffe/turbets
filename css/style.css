@@ -580,9 +580,9 @@ body.info_app {
 
 .juego-container .juego-data3{
   position:absolute;
-  bottom: 60px;
+  bottom: 75px;
   right: 200px;
-  
+  cursor: pointer;
   background-color: #daa520;
   display: flex;
   align-items: center;
@@ -590,8 +590,9 @@ body.info_app {
   text-decoration: none;
   color: black;
   border-radius: 15px;
-  padding: 10px;
+  padding: 5px;
   width: 10%;
+  font-size: 25px;
 
 }
 
@@ -666,14 +667,40 @@ body.info_app {
 }
 
 
-.imagen-perfil{
+.info-perfil {
+  display: flex;
+  position: relative;           
+  background-color: white;
+  padding: 20px;
+  border-radius: 15px;
+  width: 50%;
+  margin: 50px auto;
+  justify-content: space-between;s       
+}
+
+.imagen-perfil {
   background-image: url("/imagenes/12225881.png");
   background-position: center;
   background-size: cover;
-  width: 200px;
-  height: 200px;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+ margin-top: 10%;
+ margin-left: 10%;
+}
+
+.datos-perfil {
   display: flex;
-  position: relative;
+  flex-direction: column;
+  text-align: left; 
+  margin-right: 10%;
+  line-height: 0.4;
+}
+
+.pos-edit-button {
+  position: absolute;           
+  top: 10px;
+  right: 10px;
 }
 
 .Juego-Responsable{
@@ -687,3 +714,4 @@ body.info_app {
 .titulo-responsable{
   color:goldenrod;
 }
+
