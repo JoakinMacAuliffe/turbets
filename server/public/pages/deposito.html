@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Honk&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=arrow_forward" />
+
+    <title>Turbets - Perfil de Usuario</title>
+  </head>
+
+  <header class="header">
+    <a href="/pages/index.html" class="header-logo">Turbets</a>
+    <nav class="nav-left">
+      <a href="/pages/ruleta.html" class="header-left-button">Juegos</a>
+      <a href="/pages/info-app.html" class="header-left-button">¿Quiénes somos?</a>
+    </nav>
+    <nav class="nav">
+      <a href = "/pages/perfil.html" class="button header-button">Perfil</a>
+    </nav>
+  </header>
+
+<body>
+    <div class = "sidebar-transacciones">
+        <P class = "side-list-title">MI PERFIL</P>
+        <a href = "/pages/perfil.html"> <button class = "side-list"> PERFIL </button> </a>
+        <a href ="/pages/transacciones.html"> <button class = "side-list"> HISTORIAL DE TRANSFERENCIAS </button> </a>
+        <a href ="/pages/deposito.html"> <button class = "side-list"> TRANSACCIONES </button> </a> 
+    </div>
+
+    <div class = "container-deposito">
+        <div class = "trans-ret">
+        <h1>Deposita Dinero</h1>
+        <h3>Saldo: $10.000</h3>
+            <form class ="form-trans">
+                <label>Deposito</label>
+                <input type = "number" required>
+                <input type = "submit" value="Depositar">
+            </form>
+        </div>
+    </div>
+
+    <div class = "container-deposito">
+        <div class = "trans-ret">
+        <h1>Retira Dinero</h1>
+        <h3>Saldo: $10.000</h3>
+            <form class ="form-trans">
+                <label>Retiro</label>
+                <input type = "number" required>
+                <input type = "submit" value="Retirar">
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

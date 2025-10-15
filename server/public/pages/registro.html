@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <title>Turbets - Registro</title>
+  </head>
+
+  <header class="header">
+    <a href="/pages/index.html" class="header-logo">Turbets</a>
+    <nav class="nav-left">
+      <a href="/pages/ruleta.html" class="header-left-button">Juegos</a>
+      <a href="/pages/info-app.html" class="header-left-button"
+        >¿Quiénes somos?</a
+      >
+    </nav>
+    <nav class="nav">
+      <a href="/pages/acceso.html" class="button header-button"
+        >Iniciar Sesión</a
+      >
+    </nav>
+  </header>
+
+  <body>
+    <div class="container container-registro">
+      <form action="/pages/perfil.html" method="get">
+        <label class="campo-texto-label" for="username">Nombre Completo</label>
+        <input
+          class="campo-texto"
+          type="text"
+          id="fullname"
+          name="fullname"
+          placeholder="Ingrese su nombre completo"
+          required
+        />
+        <label class="campo-texto-label" for="username"
+          >Nombre de usuario</label
+        >
+        <input
+          class="campo-texto"
+          type="text"
+          id="username"
+          name="username"
+          placeholder="Ingrese su nombre de usuario"
+          required
+        />
+        <label class="campo-texto-label" for="email">Correo electrónico</label>
+        <input
+          class="campo-texto"
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Ingrese su correo electrónico"
+          required
+        />
+        <label class="campo-texto-label" for="password">Contraseña</label>
+        <input
+          class="campo-texto"
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Contraseña"
+          required
+        />
+        <label class="campo-texto-label" for="password"
+          >Confirme su contraseña</label
+        >
+        <input
+          class="campo-texto"
+          type="password"
+          id="password"
+          name="password-confirm"
+          placeholder="Escriba nuevamente su contraseña"
+          required
+        />
+        <label class="campo-texto-label" for="fecha-nacimiento"
+          >Fecha de nacimiento</label
+        >
+        <input
+          class="campo-texto"
+          type="date"
+          id="fecha-nacimiento"
+          name="fecha-nacimiento"
+          placeholder=""
+          required
+        />
+        <button type="submit" class="button registrarse-button">
+          Registrarse
+        </button>
+      </form>
+    </div>
+  </body>
+</html>
