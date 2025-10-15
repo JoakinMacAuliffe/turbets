@@ -1,0 +1,862 @@
+
+@import url("https://fonts.googleapis.com/css2?family=Nabla&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Geologica:wght@100..900&family=Nabla&display=swap");
+
+* {
+  font-family: "Geologica", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings: "slnt" 0, "CRSV" 0, "SHRP" 0;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+
+  background-color: #212121;
+
+  /* background-image: url(https://cdn.wallpapersafari.com/70/25/H6lJk1.jpg); */
+
+  /* background-image: url(https://eatmagazine.ca/wp-content/uploads/2025/07/casino-quebec.webp); */
+}
+
+input {
+  padding: 5px;
+}
+
+/* Spacers */
+
+.consejo-destacado {
+  font-weight: bold;
+  color: goldenrod;
+  font-size: 1.1em;
+}
+
+.spacer {
+  height: 1.5rem;
+}
+
+.separator {
+  width: 330px;
+  border: 2px 2px goldenrod;
+  
+}
+
+/* Estructura del header */
+
+header,
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 2rem;
+  background: black;
+  /* box-shadow: 0 2px 5px rgba(0, 0, 2, 0.3); */
+  position: fixed;
+  position: absolute;
+  top: 0;
+
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 2px solid;
+  /* border-color: goldenrod; */
+  /* box-shadow: 0 5px 10px goldenrod; */
+
+  width: 97%;
+  height: 3%;
+
+  margin-right: 15px;
+}
+
+/* Botones izquierda header */
+
+.nav-left {
+  display: flex;
+  margin-right: auto;
+  margin-left: 20px;
+}
+
+.header-left-button {
+  margin-left: 20px;
+  padding: 10px;
+  align-items: center;
+  color: goldenrod;
+  transition: box-shadow 0.3s, color 0.3s;
+
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.header-left-button:hover {
+  box-shadow: 0 6px #daa520;
+}
+
+/* Logo del header */
+
+.header-logo {
+  display: flex;
+  margin-left: 20px;
+
+  font-family: "Nabla", system-ui;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings: "EDPT" 100, "EHLT" 12;
+  font-size: xx-large;
+
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* Botones derecha header */
+
+.nav {
+  display: flex;
+  margin-left: auto;
+  gap: 1rem;
+}
+
+/* Boton del header derecha */
+
+.button {
+  background-color: #daa520;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: black;
+  border-radius: 15px;
+  border: none;
+}
+
+.header-button {
+  padding: 10px;
+  border-radius: 15px;
+}
+
+.button:hover {
+  background-color: #a17621;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+/* Contenedores */
+
+.container form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(15px);
+
+  border: 2px solid goldenrod;
+  border-radius: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 5, 0.5);
+}
+
+.container-registro form {
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 3rem;
+  height: 600px;
+  width: 20rem;
+  gap: 0.1rem;
+}
+
+.container-login form {
+  
+  padding: 1rem 1rem;
+  align-self: center;
+  gap: 0.5rem;
+
+}
+
+
+
+/* Campos de login/registro */
+
+.campo-texto {
+  display: flex;
+
+  background-color: black;
+  margin: 15px;
+  color: goldenrod;
+  box-shadow: 0 2px 5px black;
+
+  border: 2px solid goldenrod;
+  border-radius: 10px;
+  font-size: 1rem;
+
+  height: 2rem;
+  width: 20rem;
+}
+
+#fecha-nacimiento.campo-texto {
+  width: 9rem;
+  padding: 0.4rem;
+}
+
+.campo-texto-label {
+  color: goldenrod;
+  font-size: 1.3rem;
+  text-shadow: 0 2px 5px black;
+}
+
+/* Botones */
+
+.olvidar-password-button {
+  color: goldenrod;
+  font-size: 16px;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  margin:5px 0 10px 0;
+}
+
+.iniciar-sesion-landing-button {
+  background: linear-gradient(90deg, goldenrod, #ffda7a);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s, color 0.3s;
+  border: none;
+  margin: 5px;
+  font-size: 18px;
+  height: 50px;
+  width: 330px;
+
+}
+
+.iniciar-sesion-landing-button:hover {
+  color: #855f00;
+  box-shadow: 0 0 12px #ac8010;
+}
+
+
+.registrarse-button {
+  background: linear-gradient(90deg, goldenrod, #ffda7a);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s, color 0.3s;
+  border: none;
+
+  font-size: 1.5rem;
+  height: 50px;
+  width: 12rem;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.registrarse-button:hover {
+  color: #855f00;
+  box-shadow: 0 0 12px #ac8010;
+}
+
+/* side bar*/
+
+  .sidebar {
+    position: fixed;
+    position: absolute;
+    top: 80px;
+    left: -200px;
+    width: 200px;
+    height: 100%;
+    background: black;
+    color: white;
+    transition: left 0.3s ease;
+    padding: 1rem;
+  }
+
+  .sidebar:hover {
+    left: 0; /* slides in when hovered */
+  }
+
+  .side-list{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  color: goldenrod;
+  font-size: 16px;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  margin: 10px;
+  text-align: left;
+  text-decoration: none;
+  }
+
+  .side-list-title{
+    font-size: 23px; 
+    text-align: center;
+    position: relative;
+    color: goldenrod;
+  }
+
+  .side-list-title:after{
+    content: '';
+    display: block;
+    width: 200px;
+    height: 2px;
+    background: goldenrod;
+    position:absolute;
+    margin-top: 10px;
+  }
+
+  .sidebar-transacciones{
+    position: fixed;
+    position: absolute;
+    top: 80px;
+    left: 0px;
+    width: 200px;
+    height: 100%;
+    background: black;
+    color: white;
+    transition: left 0.3s ease;
+    padding: 1rem;
+  }
+
+
+  /* Fin side bar */
+
+body.info_app {
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+ 
+  color:rgb(218, 165, 32);
+
+  min-height: 100vh; 
+   
+  margin: 0;
+
+  background-color: #212121;
+
+}
+
+.titulo_quienes_somos{
+  
+  font-size: 400%;
+  padding-left: 0;
+  text-align: center;
+  margin: 200px 20% 40px 20% ;
+}
+
+.developer_name{
+
+  font-weight:bolder;
+}
+
+.titulo_equipo{
+
+  color:goldenrod;
+}
+
+.presentacion{
+
+  font-size: 125%;
+  color:#929090;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20%; 
+  max-width: 90%; /* para que quepa en cualquier pantalla */
+  margin: 20px 10% 0 10%;
+  padding: 0 20px;
+}
+
+.disclaimer{
+  font-size: 12px;
+  margin-top: 50px;
+}
+
+/* Ruleta */
+
+.ruleta-list .ruleta-item .ruleta-link{
+  width : 400px;
+  display: block;
+  background: #fff;
+  padding: 18px;
+  border-radius: 12px;
+  text-decoration: none;
+  border: 2px solid transparent;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.05);
+  transition: 0.2s ease;
+}
+
+.ruleta-list .ruleta-item .ruleta-link:hover{
+  border-color: goldenrod;
+}
+
+.ruleta-list .ruleta-item{
+  list-style: none;
+}
+
+.ruleta-list .ruleta-link .ruleta-img{
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  border-radius: 10px; /* opcional */
+}
+
+.ruleta-list .ruleta-link .badge{
+  color:black;
+  padding: 8px 16px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin: 16px 0 18px;
+  background: #DDE4FF;
+}
+
+.ruleta-list .ruleta-link .ruleta-title{
+  font-size: 1.19rem;
+  color:#000;
+  font-weight: 600;;
+}
+
+.ruleta-list .ruleta-link .ruleta-button{
+  height: 35px;
+  width: 35px;
+  color: goldenrod;
+  border-radius: 50%;
+  margin: 30px 0 5px;
+  background: none;
+  cursor: pointer;
+  border:2px solid goldenrod;
+  transform: rotate(-45deg);
+  transition: 0.4s ease;
+}
+
+.ruleta-list .ruleta-link .ruleta-button:hover{
+  background: goldenrod;
+  color:#fff;
+}
+
+.ruleta-container{
+  position: absolute;
+  right: 10%;
+}
+
+/* Fin Ruleta */
+
+/* Tabla de transacciones */
+
+.transacciones-container{
+  margin-right: 900px;
+  margin-bottom: 500px;
+}
+
+.busqueda-trans{
+  margin-left: 100px;
+  position: relative;
+}
+
+.titulo-transferencia{
+  margin-left: 100px;
+  color: #e6e6e6;
+}
+
+.contenido{
+  border-collapse: collapse;
+  margin-left: 100px;
+  font-size: 0.9em;
+  min-width: 1500px;
+  background-color: #bebebe;
+  margin-bottom: 300px;
+  position: absolute;
+}
+
+.contenido thead tr{
+  background-color: goldenrod;
+  color:#ffffff;
+  text-align: left;
+  font-weight: bold;
+}
+
+.contenido th, .contenido td{
+  padding: 12px 15px;
+}
+
+.contenido tbody tr{
+  border-bottom: 1px solid black;
+}
+
+.nombre-texto{
+  color:#e6e6e6;
+}
+
+.contenido tbody tr:nth-of-type(even){
+  background-color: #8d8888;
+  
+}
+
+/*Fin tabla transacciones*/
+/*Tabla Ruleta*/
+
+.contenido-ruleta{
+  border-collapse: collapse;
+  margin-top: 1800px;
+  align-items: center;
+  font-size: 0.9em;
+  width: 1500px;
+  height: auto;
+  background-color: #bebebe;
+  margin-bottom: 300px;
+  position: relative;
+  border-radius: 2%;
+}
+
+.contenido-ruleta thead tr{
+  background-color: goldenrod;
+  color: #ffffff;
+  text-align: left;
+  font-weight: bold;
+}
+
+.contenido-ruleta th, .contenido-ruleta td{
+  padding: 12px 15px;
+}
+
+.contenido-ruleta tbody tr:nth-of-type(even){
+  background-color: #8d8888;
+}
+
+.contenido-ruleta tbody tr{
+  border-bottom: 1px solid black;
+}
+
+/* Contenedor de Juego */
+
+.juego-container{
+  display: block;
+  justify-content: center;
+  width: 1250px;
+  height: 650px;
+  padding: 18px;
+  background: transparent;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.05);
+  position: relative;
+}
+
+.juego-img{
+  
+  width: 100%;
+  object-fit: cover;
+  border-radius: 10px; /* opcional */
+}
+
+.juego-boton{
+  top: 100%;
+  right: 100%;
+}
+
+
+
+.juego-container .juego-data1{
+  position:absolute;
+  top:30px;
+  left:240px;
+  background-color: #daa520;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: black;
+  border-radius: 15px;
+  padding: 10px;
+  border-radius: 15px;
+  
+}
+
+.juego-container .juego-data2{
+  position:absolute;
+  top:30px;
+  left:700px;
+  background-color: #daa520;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: black;
+  border-radius: 15px;
+  padding: 10px;
+  border-radius: 15px;
+}
+
+.juego-container .juego-data3{
+  position:absolute;
+  bottom: 75px;
+  right: 200px;
+  cursor: pointer;
+  background-color: #daa520;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: black;
+  border-radius: 15px;
+  padding: 5px;
+  width: 10%;
+  font-size: 25px;
+  border: none;
+}
+
+.juego-data3:hover {
+  background-color: #a17621;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.juego-container .juego-boton{
+  position: absolute;
+  top:30px;
+  right:30px;
+}
+
+/* Fin contenedor de juego */
+
+/* Imagen de fondo */
+
+.fondo{
+  background-image: url("/imagenes/casino.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: 2%;
+
+  min-height: 50vh;
+  width: 80%;
+
+  display: flex;               
+  align-items: center;         
+  justify-content: center;     
+  text-align: center;         
+  color: white;  
+  position: relative;
+}
+
+.Titulo{
+  font-family: "Honk", system-ui;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings:
+    "MORF" 15,
+    "SHLN" 50;
+}
+
+.Titulo{
+
+  font-size: 50px;
+}
+
+.Ruleta{
+  position: absolute;
+  margin-top: 1300px;
+  margin-right: -1000px;
+}
+
+.Reglas{
+  position: absolute;
+  margin-top:1300px;
+  align-content: center;
+  color: goldenrod;
+}
+
+.text-reglas{
+  position: absolute;
+  display:flex;
+  align-items: center;
+  width: 900px;
+  height:500px;
+  left: 10%;
+  margin-bottom: 200px;
+}
+
+.parrafo-reglas{
+  color:#929090;
+}
+
+.reglas-titulo {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+
+.info-perfil {
+  display: flex;
+  position: relative;           
+  background-color: white;
+  padding: 20px;
+  border-radius: 15px;
+  width: 50%;
+  margin: 50px auto;
+  justify-content: space-between;  
+}
+
+.imagen-perfil {
+  background-image: url("/imagenes/12225881.png");
+  background-position: center;
+  background-size: cover;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+ margin-top: 10%;
+ margin-left: 10%;
+}
+
+.datos-perfil {
+  display: flex;
+  flex-direction: column;
+  text-align: left; 
+  margin-right: 10%;
+  line-height: 0.4;
+}
+
+.pos-edit-button {
+  position: absolute;           
+  top: 10px;
+  right: 10px;
+}
+
+.Juego-Responsable{
+  width: 900px;
+  height: 600px;
+  margin-bottom: 100px;
+  position: absolute;
+  left: 5%;
+}
+
+.titulo-responsable{
+  color:goldenrod;
+}
+
+/*Container de Deposito*/
+
+.container-deposito{
+  width: 500px;
+  height: 500px;
+  background-color: rgba(0, 0, 0, 0.74);
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  border: 5px solid goldenrod;
+  border-radius: 12px; 
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  margin-right: 25px;
+  margin-left: 25px;
+}
+
+.trans-ret {
+  text-align: center;
+  background: goldenrod;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  width: 300px;               
+}
+
+.trans-ret h1 h3 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.form-trans {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-trans label {
+  font-weight: bold;
+  text-align: left;
+  color: #444;
+}
+
+.form-trans input[type="number"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.form-trans input[type="submit"] {
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  background:  rgba(0, 0, 0, 0.74);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.form-trans input[type="submit"]:hover {
+  background:  rgb(0, 0, 0);
+}
+
+/* Fin Container Deposito */
+
+/*Container Estado*/
+
+.flexbox{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.Estadisticas {
+  flex: 1;
+  max-width: 300px;
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.Estadisticas h1 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #333;
+  border-bottom: 2px solid #ddd; 
+  padding-bottom: 5px;
+}
+
+.Estadisticas p {
+  font-size: 16px;
+  margin: 0 0 15px 0;
+  color: #555;
+}
+
+.Estadisticas ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+
+.Estadisticas li {
+  font-size: 15px;
+  padding: 8px 12px;
+  margin-bottom: 6px;
+  background: #f4f4f4;
+  border-radius: 6px;
+  color: #444;
+  transition: background 0.3s ease;
+}
+
+.Estadisticas li:hover {
+  background: #e0e0e0;
+}
