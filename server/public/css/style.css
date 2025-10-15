@@ -629,7 +629,7 @@ body.info_app {
 /* Imagen de fondo */
 
 .fondo{
-  background-image: url("/imagenes/casino.jpg");
+  background-image: url("/images/casino.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -706,7 +706,7 @@ body.info_app {
 }
 
 .imagen-perfil {
-  background-image: url("/imagenes/12225881.png");
+  background-image: url("/images/12225881.png");
   background-position: center;
   background-size: cover;
   width: 250px;
