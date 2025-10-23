@@ -13,24 +13,24 @@
 </div>
 
 <div class="container-deposito">
-  <div class="trans-ret">
+  <div class="trans-ret" action="/deposito" method="post" >
     <h1>Deposita Dinero</h1>
-    <h3>Saldo: $10.000</h3>
+    <h3>Saldo: ${{saldo}}</h3>
     <form class="form-trans">
-      <label>Deposito</label>
-      <input type="number" required />
+      <label for="deposito">Deposito</label>
+      <input id="deposito" name="monto" type="number" min="1" step="1" required />
       <input type="submit" value="Depositar" />
     </form>
   </div>
 </div>
 
-<div class="container-deposito">
+<div class="container-deposito" action="/retiro" method="post" >
   <div class="trans-ret">
     <h1>Retira Dinero</h1>
-    <h3>Saldo: $10.000</h3>
+    <h3>Saldo: ${{saldo}}</h3>
     <form class="form-trans">
-      <label>Retiro</label>
-      <input type="number" required />
+      <label for="retiro">Retiro</label>
+      <input id ="retiro" name="monto" type="number" min="1" step="1" required />
       <input type="submit" value="Retirar" />
     </form>
   </div>

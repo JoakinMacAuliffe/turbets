@@ -261,12 +261,20 @@ app.get("/perfil", requireAuth, (req, res) => {
   });
 });
 
-app.get("/deposito", (req, res) =>
-  res.render("deposito", { pageTitle: "Turbets - Depositar" })
-);
-app.get("/juego", (req, res) =>
-  res.render("juego", { pageTitle: "Turbets - Juego" })
-);
+app.get("/deposito", (req, res) => {
+  const u = res.locals.user || {};
+  res.render("deposito", { 
+    pageTitle: "Turbets - Depositar",
+    saldo: u.saldo
+  })
+});
+app.get("/juego", (req, res) => {
+  const u = res.locals.user || {};
+  res.render("juego", { 
+    pageTitle: "Turbets - Juego",
+    saldo: u.saldo
+  })
+});
 app.get("/transacciones", (req, res) =>
   res.render("transacciones", { pageTitle: "Turbets - Transacciones" })
 );
