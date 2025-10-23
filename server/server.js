@@ -7,14 +7,18 @@ const mongoose = require("mongoose");
 const { engine } = require("express-handlebars");
 const app = express();
 
-require('dotenv').config();
+// Llaves secretas
+require("dotenv").config({ path: require("path").join(__dirname, "keys.env") });
+const MONGO_URI = process.env.MONGO_URI;
+const COOKIE_SECRET = process.env.COOKIE_SECRET;
+const PORT = process.env.PORT;
 
-const PORT = process.env.PORT || 80;
+if (!MONGO_URI || !COOKIE_SECRET) {
+  console.error("Falta MONGO_URI o COOKIE_SECRET en keys.env");
+  process.exit(1);
+}
 
 // Configuracion de MongoDB
-
-const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://jfmac:KQEogjzO79qsuLaf@cluster0.2thrxtf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-const COOKIE_SECRET = process.env.COOKIE_SECRET || "942526675799825891b49d576df24f36d1d485c7530a6ede771306ed25949300";
 
 mongoose
   .connect(MONGO_URI)
@@ -241,16 +245,13 @@ app.get("/perfil", requireAuth, (req, res) => {
   });
 });
 app.get("/deposito", (req, res) =>
-  res.render("deposito", { pageTitle: "Turbets - Depositar", isLoggedIn: true })
+  res.render("deposito", { pageTitle: "Turbets - Depositar" })
 );
 app.get("/juego", (req, res) =>
-  res.render("juego", { pageTitle: "Turbets - Juego", isLoggedIn: true })
+  res.render("juego", { pageTitle: "Turbets - Juego" })
 );
 app.get("/transacciones", (req, res) =>
-  res.render("transacciones", {
-    pageTitle: "Turbets - Transacciones",
-    isLoggedIn: true,
-  })
+  res.render("transacciones", { pageTitle: "Turbets - Transacciones" })
 );
 
 // Configuracion de puerto
