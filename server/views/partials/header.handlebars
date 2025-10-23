@@ -1,0 +1,16 @@
+<!-- server/views/partials/header.hbs -->
+<header class="header">
+  <a href="/" class="header-logo">Turbets</a>
+  <nav class="nav-left">
+    <a href="/ruleta" class="header-left-button">Juegos</a>
+    <a href="/info-app" class="header-left-button">¿Quiénes somos?</a>
+  </nav>
+  <nav class="nav">
+		{{#if isLoggedIn}}
+      <a href="/perfil" class="button header-button">Perfil</a>
+		{{else}}		
+    <a href="/registro" class="button header-button">Registrarse</a>
+    <a href="/acceso" class="button header-button">Iniciar Sesión</a>
+		{{/if}}
+  </nav>
+</header>

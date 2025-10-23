@@ -1,0 +1,41 @@
+
+<div class="sidebar-transacciones">
+  <p class="side-list-title">MI PERFIL</p>
+  <a href="/perfil">
+    <button class="side-list">PERFIL</button>
+  </a>
+  <a href="/transacciones">
+    <button class="side-list">HISTORIAL DE TRANSFERENCIAS</button>
+  </a>
+  <a href="/deposito">
+    <button class="side-list">TRANSACCIONES</button>
+  </a>
+  {{#if isLoggedIn}}
+  <form action="/logout" method="post" style="margin-top: auto;">
+    <button class="side-list logout-button" type="submit">CERRAR SESIÓN</button>
+  </form>
+  {{/if}}
+</div>
+
+<div class="info-perfil">
+  <div class="imagen-perfil"></div>
+
+  <div class="datos-perfil">
+    <h3>Nombre:</h3>
+    <p>{{fullname}}</p>
+    <h3>Nombre de Usuario:</h3>
+    <p>{{username}}</p>
+    <h3>Email:</h3>
+    <p>{{email}}</p>
+    <h3>Fecha de Nacimiento:</h3>
+    <p>{{birthDate}}</p>
+    <h3>Numero de Tarjeta:</h3>
+    <p>{{card_number}}</p>
+    <h3>Saldo Actual:</h3>
+    <p>${{saldo}}</p>
+  </div>
+
+  <div class="pos-edit-button">
+    <button class="button header-button">Editar</button>
+  </div>
+</div>

@@ -1,0 +1,155 @@
+<div class="sidebar-transacciones">
+  <p class="side-list-title">MI PERFIL</p>
+  <a href="/perfil">
+    <button class="side-list">PERFIL</button>
+  </a>
+  <a href="/transacciones">
+    <button class="side-list">HISTORIAL DE TRANSFERENCIAS</button>
+  </a>
+  <a href="/deposito">
+    <button class="side-list">TRANSACCIONES</button>
+  </a>
+  {{#if isLoggedIn}}
+  <form action="/logout" method="post" style="margin-top: auto;">
+    <button class="side-list logout-button" type="submit">CERRAR SESIÓN</button>
+  </form>
+  {{/if}}
+</div>
+
+<div class="transacciones-container">
+  <form class="busqueda-trans">
+    <label class="nombre-texto">Fecha Desde: </label>
+    <input type="date" class="texto-trans" required />
+    <label class="nombre-texto">Fecha Hasta: </label>
+    <input type="date" class="texto-trans" required />
+    <button class="buscar">Aceptar</button>
+  </form>
+
+  <div class="tabla-trans">
+    <h1 class="titulo-transferencia">Historial de Transacciones</h1>
+
+    <table class="contenido">
+      <thead>
+        <tr>
+          <th>Numero</th>
+          <th>Estado</th>
+          <th>Fecha</th>
+          <th>Codigo</th>
+          <th>Cuenta Origen</th>
+          <th>Cuenta Destino</th>
+          <th>Monto</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1.-</td>
+          <td>Enviada</td>
+          <td>07/09/2025</td>
+          <td>4023219</td>
+          <td>-</td>
+          <td>Turbets</td>
+          <td>$400.000</td>
+        </tr>
+        <tr>
+          <td>2.-</td>
+          <td>Enviada</td>
+          <td>23/04/2025</td>
+          <td>4023218</td>
+          <td>-</td>
+          <td>Turbets</td>
+          <td>$1.000.000</td>
+        </tr>
+        <tr>
+          <td>3.-</td>
+          <td>Enviada</td>
+          <td>16/04/2025</td>
+          <td>4023217</td>
+          <td>-</td>
+          <td>Turbets</td>
+          <td>$2.500.000</td>
+        </tr>
+        <tr>
+          <td>4.-</td>
+          <td>Recibida</td>
+          <td>10/04/2025</td>
+          <td>4023216</td>
+          <td>Turbets</td>
+          <td>-</td>
+          <td>$500.000</td>
+        </tr>
+        <tr>
+          <td>5.-</td>
+          <td>Recibida</td>
+          <td>13/03/2025</td>
+          <td>4023215</td>
+          <td>Turbets</td>
+          <td>-</td>
+          <td>$20.000</td>
+        </tr>
+        <tr>
+          <td>6.-</td>
+          <td>Enviada</td>
+          <td>10/02/2025</td>
+          <td>4023214</td>
+          <td>-</td>
+          <td>Turbets</td>
+          <td>$2.000.000</td>
+        </tr>
+        <tr>
+          <td>7.-</td>
+          <td>Recibida</td>
+          <td>9/02/2025</td>
+          <td>4023213</td>
+          <td>Turbets</td>
+          <td>-</td>
+          <td>$50.000</td>
+        </tr>
+        <tr>
+          <td>8.-</td>
+          <td>Enviada</td>
+          <td>1/01/2025</td>
+          <td>4023212</td>
+          <td>-</td>
+          <td>Turbets</td>
+          <td>$300.000</td>
+        </tr>
+        <tr>
+          <td>9.-</td>
+          <td>Enviada</td>
+          <td>2/08/2020</td>
+          <td>4023211</td>
+          <td>-</td>
+          <td>Turbets</td>
+          <td>$20.000</td>
+        </tr>
+        <tr>
+          <td>10.-</td>
+          <td>Recibida</td>
+          <td>28/07/2005</td>
+          <td>4023210</td>
+          <td>Turbets</td>
+          <td>-</td>
+          <td>$1.000.000</td>
+        </tr>
+        <tr>
+          <td>11.-</td>
+          <td>Recibida</td>
+          <td>05/05/2000</td>
+          <td>4023209</td>
+          <td>Turbets</td>
+          <td>-</td>
+          <td>$15.000</td>
+        </tr>
+        <tr>
+          <td>12.-</td>
+          <td>Recibida</td>
+          <td>25/02/1997</td>
+          <td>4023208</td>
+          <td>Turbets</td>
+          <td>-</td>
+          <td>$30.000</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
