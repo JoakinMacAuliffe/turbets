@@ -1,0 +1,44 @@
+# Node
+node_modules/
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Coverage / test output
+coverage/
+.nyc_output/
+
+# Build output (uncomment if you generate these)
+# dist/
+# build/
+
+# Env and secrets (keep templates)
+.env
+.env.*
+!.env.example
+keys.env
+keys.*
+!.keys.example
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editors/IDE
+.vscode/
+.idea/
+*.swp
+
+# Misc
+*.pid
+*.pid.lock
+*.seed
+*.tgz
+
+# Local data dumps
+dump.rdb
+*.sqlite
+*.sqlite-journal

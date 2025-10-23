@@ -6,11 +6,15 @@ const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const { engine } = require("express-handlebars");
 const app = express();
+
+require('dotenv').config();
+
 const PORT = process.env.PORT || 80;
 
 // Configuracion de MongoDB
 
 const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://jfmac:KQEogjzO79qsuLaf@cluster0.2thrxtf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const COOKIE_SECRET = process.env.COOKIE_SECRET || "942526675799825891b49d576df24f36d1d485c7530a6ede771306ed25949300";
 
 mongoose
   .connect(MONGO_URI)
@@ -25,7 +29,7 @@ const User = require("./models/User");
 
 // Configuracion de cookies
 
-app.use(cookieParser(process.env.COOKIE_SECRET || "change_this_secret"));
+app.use(cookieParser(COOKIE_SECRET));
 
 // Configuracion de handlebars
 
