@@ -53,6 +53,21 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Formatear fechas en UTC
+
+function formatDateUTC(dateInput) {
+  try {
+    const d = new Date(dateInput);
+    if (Number.isNaN(d.getTime())) return '';
+    const dd = String(d.getUTCDate()).padStart(2, '0');
+    const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
+    const yyyy = d.getUTCFullYear();
+    return `${dd}/${mm}/${yyyy}`;
+  } catch (_) {
+    return '';
+  }
+}
+
 // Configuracion de ruta POST para registrarse
 
 app.post("/registro", async (req, res) => {
@@ -235,15 +250,17 @@ app.get("/ruleta", (req, res) =>
 
 app.get("/perfil", requireAuth, (req, res) => {
   const u = res.locals.user || {};
+  const birthDate = u.fechaNacimiento ? formatDateUTC(u.fechaNacimiento) : '';
   res.render("perfil", {
     pageTitle: "Turbets - Mi Perfil",
     fullname: u.fullname,
     username: u.username,
     email: u.email,
-    birthDate: u.fechaNacimiento,
+    birthDate,
     saldo: u.saldo,
   });
 });
+
 app.get("/deposito", (req, res) =>
   res.render("deposito", { pageTitle: "Turbets - Depositar" })
 );
