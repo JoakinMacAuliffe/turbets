@@ -58,15 +58,69 @@ app.use(bodyParser.urlencoded({ extended: true }));
 function formatDateUTC(dateInput) {
   try {
     const d = new Date(dateInput);
-    if (Number.isNaN(d.getTime())) return '';
-    const dd = String(d.getUTCDate()).padStart(2, '0');
-    const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
+    if (Number.isNaN(d.getTime())) return "";
+    const dd = String(d.getUTCDate()).padStart(2, "0");
+    const mm = String(d.getUTCMonth() + 1).padStart(2, "0");
     const yyyy = d.getUTCFullYear();
     return `${dd}/${mm}/${yyyy}`;
   } catch (_) {
-    return '';
+    return "";
   }
 }
+
+// Funcion para que los handlebars lean la sesion correctamente
+
+app.use((req, res, next) => {
+  let user = null;
+  if (req.signedCookies.user) {
+    try {
+      user = JSON.parse(req.signedCookies.user);
+    } catch (e) {
+      // Cookie invalida
+      res.clearCookie("user");
+    }
+  }
+  res.locals.user = user;
+  res.locals.isLoggedIn = !!user;
+  next();
+});
+
+async function requireAuth(req, res, next) {
+  try {
+    if (!req.signedCookies.user) return res.redirect("/acceso");
+
+    const session = JSON.parse(req.signedCookies.user);
+    if (!session?.id) return res.redirect("/acceso");
+
+    // Traer informacion desde MongoDB
+    const usuario = await User.findById(session.id).lean();
+    if (!usuario) {
+      res.clearCookie("user");
+      return res.redirect("/acceso");
+    }
+
+    res.locals.user = {
+      id: usuario._id.toString(),
+      username: usuario.username,
+      fullname: usuario.fullname,
+      email: usuario.email,
+      fechaNacimiento: usuario.fechaNacimiento,
+      saldo: usuario.saldo,
+    };
+    res.locals.isLoggedIn = true;
+    next();
+  } catch (err) {
+    console.error("Auth error:", err);
+    res.clearCookie("user");
+    return res.redirect("/acceso");
+  }
+}
+
+// Configuracion de imagenes y CSS en el directorio /public/
+
+app.use(express.static(path.join(__dirname, "public")));
+
+// RUTAS POST
 
 // Configuracion de ruta POST para registrarse
 
@@ -143,7 +197,7 @@ app.post("/registro", async (req, res) => {
   }
 });
 
-// POST /acceso - Manejar inicio de sesión
+// Ruta POST para inicio de sesión
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
@@ -173,11 +227,8 @@ app.post("/login", async (req, res) => {
     }
 
     const userData = {
+      id: usuario._id.toString(), // ID de MongoDB
       username: usuario.username,
-      fullname: usuario.fullname,
-      email: usuario.email,
-      fechaNacimiento: usuario.fechaNacimiento,
-      saldo: usuario.saldo,
     };
 
     res.cookie("user", JSON.stringify(userData), {
@@ -194,39 +245,97 @@ app.post("/login", async (req, res) => {
   }
 });
 
-// POST /logout
+// POST para cerrar sesion
 app.post("/logout", (req, res) => {
   res.clearCookie("user");
   return res.redirect("/");
 });
 
-// Funcion para que los handlebars lean la sesion correctamente
+// POST para deposito
+app.post('/deposito', requireAuth, async (req, res) => {
+  try {
+    const { monto } = req.body;
+    const amount = Number(monto);
 
-app.use((req, res, next) => {
-  let user = null;
-  if (req.signedCookies.user) {
-    try {
-      user = JSON.parse(req.signedCookies.user);
-    } catch (e) {
-      // Cookie invalida
-      res.clearCookie("user");
+    if (!Number.isFinite(amount) || amount <= 0) {
+      return res.status(400).render('deposito', {
+        pageTitle: 'Turbets - Depositar',
+        saldo: res.locals.user.saldo,
+        error: 'Monto inválido. Ingrese un número mayor a 0.'
+      });
     }
+
+    const usuarioActualizado = await User.findByIdAndUpdate(
+      res.locals.user.id,
+      { $inc: { saldo: amount } },
+      { new: true }
+    ).lean();
+
+    if (!usuarioActualizado) {
+      res.clearCookie('user');
+      return res.redirect('/acceso');
+    }
+
+    return res.render('deposito', {
+      pageTitle: 'Turbets - Depositar',
+      saldo: usuarioActualizado.saldo,
+      success: 'Depósito realizado exitosamente.'
+    });
+  } catch (err) {
+    console.error('Error en depósito:', err);
+    return res.status(500).render('deposito', {
+      pageTitle: 'Turbets - Depositar',
+      saldo: res.locals.user.saldo,
+      error: 'No se pudo procesar el depósito. Intente nuevamente.'
+    });
   }
-  res.locals.user = user;
-  res.locals.isLoggedIn = !!user;
-  next();
 });
 
-function requireAuth(req, res, next) {
-  if (!res.locals.user) return res.redirect("/acceso");
-  next();
-}
+// POST para retiro
+app.post('/retiro', requireAuth, async (req, res) => {
+  try {
+    const { monto } = req.body;
+    const amount = Number(monto);
 
-// Configuracion de imagenes y CSS en el directorio /public/
+    if (!Number.isFinite(amount) || amount <= 0) {
+      return res.status(400).render('deposito', {
+        pageTitle: 'Turbets - Depositar',
+        saldo: res.locals.user.saldo,
+        error: 'Monto inválido. Ingrese un número mayor a 0.'
+      });
+    }
 
-app.use(express.static(path.join(__dirname, "public")));
+    // Solo actualiza si hay saldo suficiente (condición atómica)
+    const usuarioActualizado = await User.findOneAndUpdate(
+      { _id: res.locals.user.id, saldo: { $gte: amount } },
+      { $inc: { saldo: -amount } },
+      { new: true }
+    ).lean();
 
-// Configuracion de rutas
+    if (!usuarioActualizado) {
+      return res.status(400).render('deposito', {
+        pageTitle: 'Turbets - Depositar',
+        saldo: res.locals.user.saldo,
+        error: 'Saldo insuficiente para realizar el retiro.'
+      });
+    }
+
+    return res.render('deposito', {
+      pageTitle: 'Turbets - Depositar',
+      saldo: usuarioActualizado.saldo,
+      success: 'Retiro realizado exitosamente.'
+    });
+  } catch (err) {
+    console.error('Error en retiro:', err);
+    return res.status(500).render('deposito', {
+      pageTitle: 'Turbets - Depositar',
+      saldo: res.locals.user.saldo,
+      error: 'No se pudo procesar el retiro. Intente nuevamente.'
+    });
+  }
+});
+
+// RUTAS GET
 
 app.get("/", (req, res) => {
   res.render("index", { pageTitle: "Turbets - Inicio" });
@@ -244,13 +353,13 @@ app.get("/info-app", (req, res) =>
 app.get("/registro", (req, res) =>
   res.render("registro", { pageTitle: "Turbets - Registro" })
 );
-app.get("/ruleta", (req, res) =>
+app.get("/ruleta", requireAuth, (req, res) =>
   res.render("ruleta", { pageTitle: "Turbets - Ruleta" })
 );
 
 app.get("/perfil", requireAuth, (req, res) => {
   const u = res.locals.user || {};
-  const birthDate = u.fechaNacimiento ? formatDateUTC(u.fechaNacimiento) : '';
+  const birthDate = u.fechaNacimiento ? formatDateUTC(u.fechaNacimiento) : "";
   res.render("perfil", {
     pageTitle: "Turbets - Mi Perfil",
     fullname: u.fullname,
@@ -261,21 +370,21 @@ app.get("/perfil", requireAuth, (req, res) => {
   });
 });
 
-app.get("/deposito", (req, res) => {
+app.get("/deposito", requireAuth, (req, res) => {
   const u = res.locals.user || {};
-  res.render("deposito", { 
+  res.render("deposito", {
     pageTitle: "Turbets - Depositar",
-    saldo: u.saldo
-  })
+    saldo: u.saldo,
+  });
 });
-app.get("/juego", (req, res) => {
+app.get("/juego", requireAuth, (req, res) => {
   const u = res.locals.user || {};
-  res.render("juego", { 
+  res.render("juego", {
     pageTitle: "Turbets - Juego",
-    saldo: u.saldo
-  })
+    saldo: u.saldo,
+  });
 });
-app.get("/transacciones", (req, res) =>
+app.get("/transacciones", requireAuth, (req, res) =>
   res.render("transacciones", { pageTitle: "Turbets - Transacciones" })
 );
 
