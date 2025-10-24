@@ -7,7 +7,7 @@ const transactionSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    user: {
+    user_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
@@ -28,11 +28,6 @@ const transactionSchema = new mongoose.Schema({
         type: Number,
         required: true,
         min: 0
-    },
-    status: {
-        type: String,
-        default: 'Pending',
-        enum: ['Pending', 'Completed', 'Failed', 'Cancelled']
     }
 });
 

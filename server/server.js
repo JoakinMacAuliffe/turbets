@@ -30,6 +30,7 @@ mongoose
   });
 
 const User = require("./models/User");
+const Transaction = require("./models/Transaction")
 
 // Configuracion de cookies
 
@@ -261,7 +262,7 @@ app.post('/deposito', requireAuth, async (req, res) => {
       return res.status(400).render('deposito', {
         pageTitle: 'Turbets - Depositar',
         saldo: res.locals.user.saldo,
-        error: 'Monto inválido. Ingrese un número mayor a 0.'
+        depositoError: 'Monto inválido. Ingrese un número mayor a 0.'
       });
     }
 
@@ -276,17 +277,28 @@ app.post('/deposito', requireAuth, async (req, res) => {
       return res.redirect('/acceso');
     }
 
+    const postBalance = usuarioActualizado.saldo;
+    const preBalance = postBalance - amount;
+
+    await Transaction.create({
+      type: 'DEPOSITO',
+      user_id: usuarioActualizado._id,
+      amount,
+      prebalance: preBalance,
+      postbalance: postBalance,
+    });
+
     return res.render('deposito', {
       pageTitle: 'Turbets - Depositar',
       saldo: usuarioActualizado.saldo,
-      success: 'Depósito realizado exitosamente.'
+      depositoSuccess: 'Depósito realizado exitosamente.'
     });
   } catch (err) {
     console.error('Error en depósito:', err);
     return res.status(500).render('deposito', {
       pageTitle: 'Turbets - Depositar',
       saldo: res.locals.user.saldo,
-      error: 'No se pudo procesar el depósito. Intente nuevamente.'
+      depositoError: 'No se pudo procesar el depósito. Intente nuevamente.'
     });
   }
 });
@@ -301,7 +313,7 @@ app.post('/retiro', requireAuth, async (req, res) => {
       return res.status(400).render('deposito', {
         pageTitle: 'Turbets - Depositar',
         saldo: res.locals.user.saldo,
-        error: 'Monto inválido. Ingrese un número mayor a 0.'
+        retiroError: 'Monto inválido. Ingrese un número mayor a 0.'
       });
     }
 
@@ -316,21 +328,32 @@ app.post('/retiro', requireAuth, async (req, res) => {
       return res.status(400).render('deposito', {
         pageTitle: 'Turbets - Depositar',
         saldo: res.locals.user.saldo,
-        error: 'Saldo insuficiente para realizar el retiro.'
+        retiroError: 'Saldo insuficiente para realizar el retiro.'
       });
     }
+
+    const postBalance = usuarioActualizado.saldo;
+    const preBalance = postBalance - amount;
+
+    await Transaction.create({
+      type: 'RETIRO',
+      user_id: usuarioActualizado._id,
+      amount,
+      prebalance: preBalance,
+      postbalance: postBalance
+    })
 
     return res.render('deposito', {
       pageTitle: 'Turbets - Depositar',
       saldo: usuarioActualizado.saldo,
-      success: 'Retiro realizado exitosamente.'
+      retiroSuccess: 'Retiro realizado exitosamente.'
     });
   } catch (err) {
     console.error('Error en retiro:', err);
     return res.status(500).render('deposito', {
       pageTitle: 'Turbets - Depositar',
       saldo: res.locals.user.saldo,
-      error: 'No se pudo procesar el retiro. Intente nuevamente.'
+      retiroError: 'No se pudo procesar el retiro. Intente nuevamente.'
     });
   }
 });
