@@ -17,12 +17,40 @@
 </div>
 
 <div class="transacciones-container">
-  <form class="busqueda-trans">
-    <label class="nombre-texto">Fecha Desde: </label>
-    <input type="date" class="texto-trans" required />
-    <label class="nombre-texto">Fecha Hasta: </label>
-    <input type="date" class="texto-trans" required />
-    <button class="buscar">Aceptar</button>
+  <form class="busqueda-trans" method="get" action="/transacciones">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+      <label class="nombre-texto">Mostrar:</label>
+      <select name="limit" class="texto-trans">
+        <option value="10" {{#if (eq limit 10)}}selected{{/if}}>10</option>
+        <option value="25" {{#if (eq limit 25)}}selected{{/if}}>25</option>
+        <option value="50" {{#if (eq limit 50)}}selected{{/if}}>50</option>
+        <option value="100" {{#if (eq limit 100)}}selected{{/if}}>100</option>
+      </select>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+      <label class="nombre-texto">Tipo:</label>
+      <select name="type" class="texto-trans">
+        <option value="">Todos</option>
+        <option value="DEPOSITO" {{#if (eq type 'DEPOSITO')}}selected{{/if}}>Depósito</option>
+        <option value="RETIRO" {{#if (eq type 'RETIRO')}}selected{{/if}}>Retiro</option>
+        <option value="VICTORIA" {{#if (eq type 'VICTORIA')}}selected{{/if}}>Victoria</option>
+        <option value="DERROTA" {{#if (eq type 'DERROTA')}}selected{{/if}}>Derrota</option>
+      </select>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+      <label class="nombre-texto">Desde:</label>
+      <input type="date" name="dateFrom" class="texto-trans" value="{{dateFrom}}" />
+    </div>
+    
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+      <label class="nombre-texto">Hasta:</label>
+      <input type="date" name="dateTo" class="texto-trans" value="{{dateTo}}" />
+    </div>
+    
+    <button class="buscar" type="submit">Filtrar</button>
+    <a href="/transacciones"><button class="buscar" type="button">Limpiar</button></a>
   </form>
 
   <div class="tabla-trans">
@@ -31,16 +59,31 @@
     <table class="contenido">
       <thead>
         <tr>
-          <th>Numero</th>
-          <th>Estado</th>
+          <th>N°</th>
+          <th>Código</th>
           <th>Fecha</th>
-          <th>Codigo</th>
-          <th>Cuenta Origen</th>
-          <th>Cuenta Destino</th>
+          <th>Tipo</th>
+          <th>Saldo anterior</th>
+          <th>Saldo actual</th>
           <th>Monto</th>
         </tr>
       </thead>
       <tbody>
+        {{#each transactions}}
+        <tr>
+          <td>{{@index}}.-</td>
+          <td>{{shortId _id}}</td>
+          <td>{{formatDate createdAt}}</td>
+          <td>{{type}}</td>
+          <td>${{prebalance}}</td>
+          <td>${{postbalance}}</td>
+          <td>${{amount}}</td>
+        </tr>
+        {{else}}
+        <tr>
+          <td colspan="7" style="text-align: center;">No hay transacciones disponibles</td>
+        </tr>
+        {{/each}}
       </tbody>
     </table>
   </div>

@@ -17,25 +17,55 @@
   {{/if}}
 </div>
 
-<div class="info-perfil">
-  <div class="imagen-perfil"></div>
-
-  <div class="datos-perfil">
-    <h3>Nombre:</h3>
-    <p>{{fullname}}</p>
-    <h3>Nombre de Usuario:</h3>
-    <p>{{username}}</p>
-    <h3>Email:</h3>
-    <p>{{email}}</p>
-    <h3>Fecha de Nacimiento:</h3>
-    <p>{{birthDate}}</p>
-    <h3>Numero de Tarjeta:</h3>
-    <p>{{card_number}}</p>
-    <h3>Saldo Actual:</h3>
-    <p>${{saldo}}</p>
+<div class="profile-page-container">
+  <div class="profile-header">
+    <h1 class="page-title">Mi Perfil</h1>
   </div>
 
-  <div class="pos-edit-button">
-    <button class="button header-button">Editar</button>
+  <div class="profile-content">
+    <div class="profile-card">
+      <div class="profile-avatar-section">
+        <div class="imagen-perfil"></div>
+        <div class="profile-balance">
+          <span class="balance-label">Saldo Actual</span>
+          <span class="balance-amount">${{saldo}}</span>
+        </div>
+      </div>
+
+      <div class="profile-info-section">
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="info-label">Nombre Completo</span>
+            <span class="info-value">{{fullname}}</span>
+          </div>
+          
+          <div class="info-item">
+            <span class="info-label">Nombre de Usuario</span>
+            <span class="info-value">{{username}}</span>
+          </div>
+          
+          <div class="info-item">
+            <span class="info-label">Correo Electrónico</span>
+            <span class="info-value">{{email}}</span>
+          </div>
+          
+          <div class="info-item">
+            <span class="info-label">Fecha de Nacimiento</span>
+            <span class="info-value">{{birthDate}}</span>
+          </div>
+          
+          {{#if card_number}}
+          <div class="info-item">
+            <span class="info-label">Número de Tarjeta</span>
+            <span class="info-value">{{card_number}}</span>
+          </div>
+          {{/if}}
+        </div>
+
+        <div class="profile-actions">
+          <button class="edit-profile-btn">Editar Perfil</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

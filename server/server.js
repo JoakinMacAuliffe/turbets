@@ -30,7 +30,7 @@ mongoose
   });
 
 const User = require("./models/User");
-const Transaction = require("./models/Transaction")
+const Transaction = require("./models/Transaction");
 
 // Configuracion de cookies
 
@@ -45,6 +45,20 @@ app.engine(
     defaultLayout: "main",
     layoutsDir: path.join(__dirname, "views", "layouts"),
     partialsDir: path.join(__dirname, "views", "partials"), // Partials son elementos compuestos, en este caso, el header
+    helpers: {
+      eq: (a, b) => a === b,
+      formatDate: (date) => { // Helper para que salgan bien las fechas
+        if (!date) return "";
+        const d = new Date(date);
+        return `${String(d.getUTCDate()).padStart(2, "0")}/${String(
+          d.getUTCMonth() + 1
+        ).padStart(2, "0")}/${d.getUTCFullYear()}`;
+      },
+      shortId: (id) => {
+        if (!id) return '';
+        return id.toString().substring(0, 8).toUpperCase();
+      }
+    },
   })
 );
 app.set("view engine", "handlebars");
@@ -253,16 +267,16 @@ app.post("/logout", (req, res) => {
 });
 
 // POST para deposito
-app.post('/deposito', requireAuth, async (req, res) => {
+app.post("/deposito", requireAuth, async (req, res) => {
   try {
     const { monto } = req.body;
     const amount = Number(monto);
 
     if (!Number.isFinite(amount) || amount <= 0) {
-      return res.status(400).render('deposito', {
-        pageTitle: 'Turbets - Depositar',
+      return res.status(400).render("realizar-transaccion", {
+        pageTitle: "Turbets - Depositar",
         saldo: res.locals.user.saldo,
-        depositoError: 'Monto inválido. Ingrese un número mayor a 0.'
+        depositoError: "Monto inválido. Ingrese un número mayor a 0.",
       });
     }
 
@@ -273,47 +287,47 @@ app.post('/deposito', requireAuth, async (req, res) => {
     ).lean();
 
     if (!usuarioActualizado) {
-      res.clearCookie('user');
-      return res.redirect('/acceso');
+      res.clearCookie("user");
+      return res.redirect("/acceso");
     }
 
     const postBalance = usuarioActualizado.saldo;
     const preBalance = postBalance - amount;
 
     await Transaction.create({
-      type: 'DEPOSITO',
+      type: "DEPOSITO",
       user_id: usuarioActualizado._id,
       amount,
       prebalance: preBalance,
       postbalance: postBalance,
     });
 
-    return res.render('deposito', {
-      pageTitle: 'Turbets - Depositar',
+    return res.render("realizar-transaccion", {
+      pageTitle: "Turbets - Depositar",
       saldo: usuarioActualizado.saldo,
-      depositoSuccess: 'Depósito realizado exitosamente.'
+      depositoSuccess: "Depósito realizado exitosamente.",
     });
   } catch (err) {
-    console.error('Error en depósito:', err);
-    return res.status(500).render('deposito', {
-      pageTitle: 'Turbets - Depositar',
+    console.error("Error en depósito:", err);
+    return res.status(500).render("realizar-transaccion", {
+      pageTitle: "Turbets - Depositar",
       saldo: res.locals.user.saldo,
-      depositoError: 'No se pudo procesar el depósito. Intente nuevamente.'
+      depositoError: "No se pudo procesar el depósito. Intente nuevamente.",
     });
   }
 });
 
 // POST para retiro
-app.post('/retiro', requireAuth, async (req, res) => {
+app.post("/retiro", requireAuth, async (req, res) => {
   try {
     const { monto } = req.body;
     const amount = Number(monto);
 
     if (!Number.isFinite(amount) || amount <= 0) {
-      return res.status(400).render('deposito', {
-        pageTitle: 'Turbets - Depositar',
+      return res.status(400).render("realizar-transaccion", {
+        pageTitle: "Turbets - Depositar",
         saldo: res.locals.user.saldo,
-        retiroError: 'Monto inválido. Ingrese un número mayor a 0.'
+        retiroError: "Monto inválido. Ingrese un número mayor a 0.",
       });
     }
 
@@ -325,10 +339,10 @@ app.post('/retiro', requireAuth, async (req, res) => {
     ).lean();
 
     if (!usuarioActualizado) {
-      return res.status(400).render('deposito', {
-        pageTitle: 'Turbets - Depositar',
+      return res.status(400).render("realizar-transaccion", {
+        pageTitle: "Turbets - Depositar",
         saldo: res.locals.user.saldo,
-        retiroError: 'Saldo insuficiente para realizar el retiro.'
+        retiroError: "Saldo insuficiente para realizar el retiro.",
       });
     }
 
@@ -336,24 +350,24 @@ app.post('/retiro', requireAuth, async (req, res) => {
     const preBalance = postBalance - amount;
 
     await Transaction.create({
-      type: 'RETIRO',
+      type: "RETIRO",
       user_id: usuarioActualizado._id,
       amount,
       prebalance: preBalance,
-      postbalance: postBalance
-    })
+      postbalance: postBalance,
+    });
 
-    return res.render('deposito', {
-      pageTitle: 'Turbets - Depositar',
+    return res.render("realizar-transaccion", {
+      pageTitle: "Turbets - Depositar",
       saldo: usuarioActualizado.saldo,
-      retiroSuccess: 'Retiro realizado exitosamente.'
+      retiroSuccess: "Retiro realizado exitosamente.",
     });
   } catch (err) {
-    console.error('Error en retiro:', err);
-    return res.status(500).render('deposito', {
-      pageTitle: 'Turbets - Depositar',
+    console.error("Error en retiro:", err);
+    return res.status(500).render("realizar-transaccion", {
+      pageTitle: "Turbets - Depositar",
       saldo: res.locals.user.saldo,
-      retiroError: 'No se pudo procesar el retiro. Intente nuevamente.'
+      retiroError: "No se pudo procesar el retiro. Intente nuevamente.",
     });
   }
 });
@@ -395,7 +409,7 @@ app.get("/perfil", requireAuth, (req, res) => {
 
 app.get("/deposito", requireAuth, (req, res) => {
   const u = res.locals.user || {};
-  res.render("deposito", {
+  res.render("realizar-transaccion", {
     pageTitle: "Turbets - Depositar",
     saldo: u.saldo,
   });
@@ -407,9 +421,57 @@ app.get("/juego", requireAuth, (req, res) => {
     saldo: u.saldo,
   });
 });
-app.get("/transacciones", requireAuth, (req, res) =>
-  res.render("transacciones", { pageTitle: "Turbets - Transacciones" })
-);
+app.get("/transacciones", requireAuth, async (req, res) => {
+  try {
+    // Obtener datos para filtrar
+    const limit = parseInt(req.query.limit) || 50;
+    const type = req.query.type || '';
+    const dateFrom = req.query.dateFrom || '';
+    const dateTo = req.query.dateTo || '';
+
+    // Crear query
+    const query = { user_id: res.locals.user.id };
+    
+    // Filtrar por tipo
+    if (type) {
+      query.type = type;
+    }
+    
+    // Filtrar por fecha
+    if (dateFrom || dateTo) {
+      query.createdAt = {};
+      if (dateFrom) {
+        query.createdAt.$gte = new Date(dateFrom);
+      }
+      if (dateTo) {
+        const endDate = new Date(dateTo);
+        endDate.setHours(23, 59, 59, 999);
+        query.createdAt.$lte = endDate;
+      }
+    }
+
+    const transactions = await Transaction.find(query)
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .lean();
+
+    res.render('transacciones', {
+      pageTitle: 'Turbets - Transacciones',
+      transactions,
+      limit,
+      type,
+      dateFrom,
+      dateTo
+    });
+  } catch (error) {
+    console.error('Error importando transacciones:', error);
+    res.render('transacciones', {
+      pageTitle: 'Turbets - Transacciones',
+      transactions: [],
+      error: 'Error al cargar las transacciones'
+    });
+  }
+});
 
 // Configuracion de puerto
 
