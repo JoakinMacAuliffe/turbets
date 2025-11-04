@@ -414,6 +414,7 @@ app.get("/deposito", requireAuth, (req, res) => {
     saldo: u.saldo,
   });
 });
+
 app.get("/juego", requireAuth, (req, res) => {
   const u = res.locals.user || {};
   res.render("juego", {
@@ -421,6 +422,7 @@ app.get("/juego", requireAuth, (req, res) => {
     saldo: u.saldo,
   });
 });
+
 app.get("/transacciones", requireAuth, async (req, res) => {
   try {
     // Obtener datos para filtrar
