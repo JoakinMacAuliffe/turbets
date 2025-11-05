@@ -546,8 +546,18 @@ app.get("/juego", requireAuth, async (req, res) => {
   try {
     const u = res.locals.user || {};
     
-    // Codigo para el historial de apuestas y numeros
+    // Obtener últimos 5 números ganadores (globales, de todas las apuestas)
+    const ultimosNumerosData = await Apuesta.find({ 
+      numeroGanador: { $ne: null }
+    })
+    .sort({ createdAt: -1 })
+    .limit(5)
+    .select('numeroGanador')
+    .lean();
 
+    const ultimosNumeros = ultimosNumerosData.map(a => a.numeroGanador);
+
+    // Obtener últimas 5 apuestas del usuario actual
     const ultimasApuestas = await Apuesta.find({ 
       user_id: u.id,
       numeroGanador: { $ne: null }
@@ -555,8 +565,6 @@ app.get("/juego", requireAuth, async (req, res) => {
     .sort({ createdAt: -1 })
     .limit(5)
     .lean();
-
-    const ultimosNumeros = ultimasApuestas.map(a => a.numeroGanador);
 
     const apuestasFormateadas = ultimasApuestas.map(a => ({
       tipoApuesta: a.tipoApuesta,

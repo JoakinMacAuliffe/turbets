@@ -1,10 +1,14 @@
 <!-- server/views/partials/header.hbs -->
 <header class="header">
-  <a href="/" class="header-logo">Turbets</a>
   <nav class="nav-left">
     <a href="/ruleta" class="header-left-button">Juegos</a>
     <a href="/info-app" class="header-left-button">¿Quiénes somos?</a>
   </nav>
+  
+  <a href="/" class="header-logo">
+    <span class="logo-text">TURBETS</span>
+  </a>
+  
   <nav class="nav">
 		{{#if isLoggedIn}}
       <a href="/perfil" class="button header-button">Perfil</a>
