@@ -542,12 +542,44 @@ app.get("/deposito", requireAuth, (req, res) => {
   });
 });
 
-app.get("/juego", requireAuth, (req, res) => {
-  const u = res.locals.user || {};
-  res.render("juego", {
-    pageTitle: "Turbets - Juego",
-    saldo: u.saldo,
-  });
+app.get("/juego", requireAuth, async (req, res) => {
+  try {
+    const u = res.locals.user || {};
+    
+    // Codigo para el historial de apuestas y numeros
+
+    const ultimasApuestas = await Apuesta.find({ 
+      user_id: u.id,
+      numeroGanador: { $ne: null }
+    })
+    .sort({ createdAt: -1 })
+    .limit(5)
+    .lean();
+
+    const ultimosNumeros = ultimasApuestas.map(a => a.numeroGanador);
+
+    const apuestasFormateadas = ultimasApuestas.map(a => ({
+      tipoApuesta: a.tipoApuesta,
+      monto: parseFloat(a.monto.toString()),
+      estado: a.estado,
+      numeroGanador: a.numeroGanador
+    }));
+
+    res.render("juego", {
+      pageTitle: "Turbets - Juego",
+      saldo: u.saldo,
+      ultimosNumeros: JSON.stringify(ultimosNumeros),
+      ultimasApuestas: JSON.stringify(apuestasFormateadas)
+    });
+  } catch (error) {
+    console.error("Error al cargar juego:", error);
+    res.render("juego", {
+      pageTitle: "Turbets - Juego",
+      saldo: res.locals.user?.saldo || 0,
+      ultimosNumeros: JSON.stringify([]),
+      ultimasApuestas: JSON.stringify([])
+    });
+  }
 });
 
 app.get("/transacciones", requireAuth, async (req, res) => {

@@ -22,6 +22,8 @@ function paintWheel(){
     radial-gradient(circle at 50% 50%, #0000 58%, rgba(255,255,255,.06) 58.2% 59%, #0000 59%),
     conic-gradient(from ${startAngle}deg, ${parts.join(',')})
   `;
+  
+  // Apply directly to wheel background (static, doesn't rotate)
   wheel.style.background = bg;
 }
 
@@ -37,7 +39,8 @@ function drawLabels(){
     label.className = 'label' + (n === 0 ? ' green' : '');
     label.textContent = n;
 
-    const phi = (i + 0.5) * seg; // ángulo del centro de su sector
+    // Position labels to match the gradient sectors
+    const phi = startAngle + (i + 0.5) * seg;
     const rad = phi * Math.PI / 180;
     const x = Math.cos(rad) * R;
     const y = Math.sin(rad) * R;
@@ -54,9 +57,9 @@ function spin(){
   if (spinning) return;
   spinning = true; spinBtn.disabled = true; statusEl.textContent = 'Girando…';
 
-  const extraTurns = (Math.floor(Math.random()*4) + 4) * 360; // 4–7 vueltas completas
-  const randomAngle = Math.floor(Math.random() * 360);        // parada aleatoria
-  const duration = (Math.random() * (5 - 3) + 3).toFixed(2);  // 3–5 s
+  const extraTurns = (Math.floor(Math.random()*4) + 4) * 360;
+  const randomAngle = Math.floor(Math.random() * 360);
+  const duration = (Math.random() * (5 - 3) + 3).toFixed(2);
 
   currentRotation += (extraTurns + randomAngle);
   wheel.style.transition = `transform ${duration}s cubic-bezier(.12,.63,.16,1)`;
@@ -69,7 +72,7 @@ function onEnd(){
   // normaliza a 0–360 para evitar overflow acumulado
   currentRotation = ((currentRotation % 360) + 360) % 360;
 
-  const idx = indexAtPointer(currentRotation);    // sector ganador
+  const idx = indexAtPointer(currentRotation);
   const n = numbersCW[idx];
 
   // marca visual
@@ -78,18 +81,19 @@ function onEnd(){
   if (labels[idx]) labels[idx].classList.add('win');
   lastWinIdx = idx;
 
-  showResult(n);                                   // muestra n y color
+  showResult(n);
   spinning = false; spinBtn.disabled = false;
 
-  wheel.style.transition = 'none';                 // fija la rotación exacta
+  wheel.style.transition = 'none';
   wheel.style.transform = `rotate(${currentRotation}deg)`;
-  void wheel.offsetWidth;                          // reflow para el próximo giro
+  void wheel.offsetWidth;
 }
 
 // Con startAngle = -90 - seg/2, el centro del 0 queda en el puntero (arriba).
-// Índice = floor( ((-rotation + seg/2) mod 360) / seg )
+// Debemos compensar ese startAngle para mapear el ángulo del puntero al índice.
+// Fórmula: idx = floor( (((-rotation - 90) - startAngle) mod 360) / seg )
 function indexAtPointer(rotation){
-  const rel = ((-rotation - 90) % 360 + 360) % 360;
+  const rel = ((-rotation - 90 - startAngle) % 360 + 360) % 360;
   return Math.floor(rel / seg) % numbersCW.length;
 }
 

@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const apuestaSchema = new mongoose.Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
@@ -33,3 +35,5 @@ const apuestaSchema = new mongoose.Schema({
         default: 0
     }
 });
+
+module.exports = mongoose.model('Apuesta', apuestaSchema);
