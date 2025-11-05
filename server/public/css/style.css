@@ -1212,6 +1212,11 @@ body.info_app {
   gap: 1.5rem;
   align-items: center;
   flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
 }
 
 .game-info-badge {
@@ -1222,7 +1227,7 @@ body.info_app {
   flex-direction: column;
   gap: 0.25rem;
   box-shadow: 0 4px 15px rgba(218, 165, 32, 0.3);
-  min-width: 180px;
+  min-width: 140px;
 }
 
 .game-info-badge.bet-total {
@@ -1244,6 +1249,85 @@ body.info_app {
   color: #1a1a1a;
 }
 
+/* Bet Amount in Header */
+.bet-amount-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.75rem 1.25rem;
+  border-radius: 12px;
+  border: 1px solid rgba(218, 165, 32, 0.3);
+}
+
+.bet-label-header {
+  color: goldenrod;
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.bet-input-wrapper-header {
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  min-width: 120px;
+}
+
+.bet-input-wrapper-header .currency-symbol {
+  color: goldenrod;
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+.bet-input-header {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  width: 100%;
+  outline: none;
+}
+
+.bet-input-header::-webkit-inner-spin-button,
+.bet-input-header::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.quick-bet-buttons-header {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.quick-bet-btn-header {
+  padding: 0.5rem 0.75rem;
+  background: linear-gradient(135deg, rgba(218, 165, 32, 0.2), rgba(218, 165, 32, 0.1));
+  color: goldenrod;
+  border: 1px solid rgba(218, 165, 32, 0.4);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.quick-bet-btn-header:hover {
+  background: linear-gradient(135deg, rgba(218, 165, 32, 0.3), rgba(218, 165, 32, 0.2));
+  border-color: goldenrod;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(218, 165, 32, 0.3);
+}
+
+.quick-bet-btn-header:active {
+  transform: translateY(0);
+}
+
 .spin-button {
   padding: 1rem 2.5rem;
   background: linear-gradient(135deg, #28a745, #20c997);
@@ -1255,7 +1339,7 @@ body.info_app {
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
-  margin-left: auto;
+  white-space: nowrap;
 }
 
 .spin-button:hover {

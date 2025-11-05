@@ -12,7 +12,7 @@ const seg = 360 / numbersCW.length; // ~9.7297° por sector
 const startAngle = -90 - seg/2;     // centra el "0" en la parte superior
 
 // ========== VARIABLES GLOBALES ==========
-let tipoApuestaActual = 'numero';
+let tipoApuestaActual = 'pleno';
 let valorApuesta = 0;
 let apuestaActualId = null;
 let currentRotation = 0;
@@ -93,8 +93,12 @@ async function spin() {
   }
   
   // Obtener valor de la apuesta según tipo
-  if (tipoApuestaActual === 'numero') {
+  if (tipoApuestaActual === 'pleno') {
     valorApuesta = parseInt(document.getElementById('numero-apuesta').value);
+  } else if (tipoApuestaActual === 'docena') {
+    valorApuesta = parseInt(document.getElementById('docena-apuesta').value);
+  } else if (tipoApuestaActual === 'columna') {
+    valorApuesta = parseInt(document.getElementById('columna-apuesta').value);
   } else {
     valorApuesta = tipoApuestaActual;
   }
@@ -257,12 +261,25 @@ document.querySelectorAll('.bet-type-btn').forEach(btn => {
     tipoApuestaActual = btn.dataset.type;
     
     const numeroInput = document.getElementById('numero-input');
-    numeroInput.style.display = (tipoApuestaActual === 'numero') ? 'block' : 'none';
+    const docenaInput = document.getElementById('docena-input');
+    const columnaInput = document.getElementById('columna-input');
+    
+    numeroInput.style.display = 'none';
+    docenaInput.style.display = 'none';
+    columnaInput.style.display = 'none';
+    
+    if (tipoApuestaActual === 'pleno') {
+      numeroInput.style.display = 'block';
+    } else if (tipoApuestaActual === 'docena') {
+      docenaInput.style.display = 'block';
+    } else if (tipoApuestaActual === 'columna') {
+      columnaInput.style.display = 'block';
+    }
   });
 });
 
 // Quick bet buttons
-document.querySelectorAll('.quick-bet-btn').forEach(btn => {
+document.querySelectorAll('.quick-bet-btn-header').forEach(btn => {
   btn.addEventListener('click', () => {
     const amount = parseInt(btn.getAttribute('data-amount'));
     const currentValue = parseInt(betInput.value) || 0;

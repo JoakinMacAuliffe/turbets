@@ -460,7 +460,7 @@ function verificarApuesta(tipo, valor, numeroGanador) {
 
     switch(tipo) {
 
-        case 'numero':
+        case 'pleno':
             return valor === numeroGanador;
         
         case 'rojo': 
@@ -473,7 +473,13 @@ function verificarApuesta(tipo, valor, numeroGanador) {
             return !esCero && numeroGanador % 2 === 0;
 
         case 'impar': 
-            return !esCero && numeroGanador % 2 === 1; 
+            return !esCero && numeroGanador % 2 === 1;
+        
+        case 'falta': // 1-18
+            return !esCero && numeroGanador >= 1 && numeroGanador <= 18;
+        
+        case 'pasa': // 19-36
+            return !esCero && numeroGanador >= 19 && numeroGanador <= 36;
             
         case 'docena': // 'valor' será 1 (1-12), 2 (13-24) o 3 (25-36)
             if (esCero) return false;
@@ -481,6 +487,13 @@ function verificarApuesta(tipo, valor, numeroGanador) {
             if (valor === 2) return numeroGanador >= 13 && numeroGanador <= 24;
             if (valor === 3) return numeroGanador >= 25 && numeroGanador <= 36;
             return false;
+        
+        case 'columna': // 'valor' será 1, 2 o 3
+            if (esCero) return false;
+            // Columna 1: 1,4,7,10,13,16,19,22,25,28,31,34
+            // Columna 2: 2,5,8,11,14,17,20,23,26,29,32,35
+            // Columna 3: 3,6,9,12,15,18,21,24,27,30,33,36
+            return numeroGanador % 3 === (valor === 3 ? 0 : valor);
             
         default: 
             return false;
@@ -489,12 +502,15 @@ function verificarApuesta(tipo, valor, numeroGanador) {
 
 function obtenerMultiplicador(tipo) {
   const multiplicadores = {
-    'numero': 36,
+    'pleno': 36,
     'rojo': 2,
     'negro': 2,
     'par': 2,
     'impar': 2,
+    'falta': 2,
+    'pasa': 2,
     'docena': 3,
+    'columna': 3,
   };
   return multiplicadores[tipo] || 1;
 }

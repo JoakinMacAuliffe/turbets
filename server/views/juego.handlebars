@@ -5,6 +5,29 @@
       <span class="badge-label">Saldo</span>
       <span class="badge-value">${{saldo}}</span>
     </div>
+    
+    <div class="bet-amount-header">
+      <label for="bet-amount" class="bet-label-header">Monto</label>
+      <div class="bet-input-wrapper-header">
+        <span class="currency-symbol">$</span>
+        <input
+          type="number"
+          id="bet-amount"
+          class="bet-input-header"
+          placeholder="0"
+          min="1"
+          step="1"
+          value="100"
+        />
+      </div>
+      <div class="quick-bet-buttons-header">
+        <button class="quick-bet-btn-header" data-amount="100">+100</button>
+        <button class="quick-bet-btn-header" data-amount="500">+500</button>
+        <button class="quick-bet-btn-header" data-amount="1000">+1K</button>
+        <button class="quick-bet-btn-header" data-amount="5000">+5K</button>
+      </div>
+    </div>
+    
     <button class="spin-button">Girar Ruleta</button>
   </div>
 
@@ -40,22 +63,35 @@
         <div class="bet-type-buttons">
           <button
             class="bet-type-btn active"
-            data-type="numero"
-            data-label="Número"
+            data-type="pleno"
+            data-label="Pleno"
+            data-pago="35"
           >
-            Número Específico (35:1)
+            Pleno - 1 número (35:1)
           </button>
-          <button class="bet-type-btn" data-type="rojo" data-label="Rojo">
-            Rojo (1:1)
+          <button class="bet-type-btn" data-type="rojo" data-label="Rojo" data-pago="1">
+            Rojo - 18 números (1:1)
           </button>
-          <button class="bet-type-btn" data-type="negro" data-label="Negro">
-            Negro (1:1)
+          <button class="bet-type-btn" data-type="negro" data-label="Negro" data-pago="1">
+            Negro - 18 números (1:1)
           </button>
-          <button class="bet-type-btn" data-type="par" data-label="Par">
-            Par (1:1)
+          <button class="bet-type-btn" data-type="par" data-label="Par" data-pago="1">
+            Par - 18 números (1:1)
           </button>
-          <button class="bet-type-btn" data-type="impar" data-label="Impar">
-            Impar (1:1)
+          <button class="bet-type-btn" data-type="impar" data-label="Impar" data-pago="1">
+            Impar - 18 números (1:1)
+          </button>
+          <button class="bet-type-btn" data-type="falta" data-label="Falta" data-pago="1">
+            Falta (1-18) - 18 números (1:1)
+          </button>
+          <button class="bet-type-btn" data-type="pasa" data-label="Pasa" data-pago="1">
+            Pasa (19-36) - 18 números (1:1)
+          </button>
+          <button class="bet-type-btn" data-type="docena" data-label="Docena" data-pago="2">
+            Docena - 12 números (2:1)
+          </button>
+          <button class="bet-type-btn" data-type="columna" data-label="Columna" data-pago="2">
+            Columna - 12 números (2:1)
           </button>
         </div>
 
@@ -69,30 +105,23 @@
             value="0"
           />
         </div>
-      </div>
-    </div>
 
-    <!-- Monto de Apuesta (separate wrapper) -->
-    <div class="bet-amount-wrapper">
-      <div class="bet-input-container">
-        <label for="bet-amount" class="bet-label">Monto de Apuesta</label>
-        <div class="bet-input-wrapper">
-          <span class="currency-symbol">$</span>
-          <input
-            type="number"
-            id="bet-amount"
-            class="bet-input"
-            placeholder="0"
-            min="1"
-            step="1"
-            value="100"
-          />
+        <div id="docena-input" class="numero-selector" style="display: none;">
+          <label>Seleccionar Docena</label>
+          <select id="docena-apuesta">
+            <option value="1">Primera Docena (1-12)</option>
+            <option value="2">Segunda Docena (13-24)</option>
+            <option value="3">Tercera Docena (25-36)</option>
+          </select>
         </div>
-        <div class="quick-bet-buttons">
-          <button class="quick-bet-btn" data-amount="100">+$100</button>
-          <button class="quick-bet-btn" data-amount="500">+$500</button>
-          <button class="quick-bet-btn" data-amount="1000">+$1,000</button>
-          <button class="quick-bet-btn" data-amount="5000">+$5,000</button>
+
+        <div id="columna-input" class="numero-selector" style="display: none;">
+          <label>Seleccionar Columna</label>
+          <select id="columna-apuesta">
+            <option value="1">Primera Columna (3,6,9...)</option>
+            <option value="2">Segunda Columna (2,5,8...)</option>
+            <option value="3">Tercera Columna (1,4,7...)</option>
+          </select>
         </div>
       </div>
     </div>
