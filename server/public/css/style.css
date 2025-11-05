@@ -1150,6 +1150,12 @@ body.info_app {
   color: #e6e6e6;
 }
 
+.stat-item.green {
+  background: rgba(6, 214, 160, 0.2);
+  border: 1px solid rgba(6, 214, 160, 0.4);
+  color: #06d6a0;
+}
+
 .stat-item:hover {
   transform: translateX(5px);
 }

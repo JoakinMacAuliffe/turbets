@@ -426,7 +426,7 @@ app.post("/resultado-apuesta", requireAuth, async (req, res) => {
 
     let pago = 0;
     if (gano) {
-      pago = apuesta.monto * multiplicador;
+      pago = Math.floor(apuesta.monto * multiplicador);
       usuario.saldo += pago;
       apuesta.estado = 'Ganada';
     } else {

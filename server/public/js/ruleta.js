@@ -72,6 +72,27 @@ function indexAtPointer(rotation){
   return Math.floor(rel / seg) % numbersCW.length;
 }
 
+function formatearNombreApuesta(tipo) {
+  const nombres = {
+    'pleno': 'Pleno',
+    'caballo': 'Caballo',
+    'transversal': 'Transversal',
+    'cuadro': 'Cuadro',
+    'seisena': 'Seisena',
+    'docena': 'Docena',
+    'columna': 'Columna',
+    'dos-docenas': 'Dos Docenas',
+    'dos-columnas': 'Dos Columnas',
+    'rojo': 'Rojo',
+    'negro': 'Negro',
+    'par': 'Par',
+    'impar': 'Impar',
+    'falta': 'Falta',
+    'pasa': 'Pasa'
+  };
+  return nombres[tipo] || tipo;
+}
+
 function showResult(n){
   const color = (n===0) ? 'VERDE' : (isRed(n) ? 'ROJO' : 'NEGRO');
   const dot = (n===0) ? 'dot-green' : (isRed(n) ? 'dot-red' : 'dot-black');
@@ -226,7 +247,8 @@ function actualizarHistorial(numero, gano, monto) {
   const apuestasLista = document.querySelector('.stat-card:nth-child(3) .stat-list');
   const li2 = document.createElement('li');
   li2.className = `bet-item ${gano ? 'win' : 'loss'}`;
-  li2.innerHTML = `${tipoApuestaActual} - $${monto} <span class="bet-result">${gano ? 'Victoria' : 'Derrota'}</span>`;
+  const nombreFormateado = formatearNombreApuesta(tipoApuestaActual);
+  li2.innerHTML = `${nombreFormateado} - $${monto} <span class="bet-result">${gano ? 'Victoria' : 'Derrota'}</span>`;
   apuestasLista.insertBefore(li2, apuestasLista.firstChild);
   
   while (apuestasLista.children.length > 5) {
@@ -257,7 +279,8 @@ if (window.ultimasApuestasData && window.ultimasApuestasData.length > 0) {
     const gano = apuesta.estado === 'Ganada';
     const li = document.createElement('li');
     li.className = `bet-item ${gano ? 'win' : 'loss'}`;
-    li.innerHTML = `${apuesta.tipoApuesta} - $${apuesta.monto} <span class="bet-result">${gano ? 'Victoria' : 'Derrota'}</span>`;
+    const nombreFormateado = formatearNombreApuesta(apuesta.tipoApuesta);
+    li.innerHTML = `${nombreFormateado} - $${apuesta.monto} <span class="bet-result">${gano ? 'Victoria' : 'Derrota'}</span>`;
     apuestasLista.appendChild(li);
   });
 }
