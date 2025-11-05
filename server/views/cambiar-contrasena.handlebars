@@ -1,0 +1,48 @@
+<div class="container container-login">
+  <form action="/cambiar-contrasena" method="POST">
+    <h2 class="form-title">Cambiar Contraseña</h2>
+
+    {{#if error}}
+      <p class="error-message">{{error}}</p>
+    {{/if}}
+
+    {{#if success}}
+      <p class="success-message">{{success}}</p>
+    {{/if}}
+
+    <input
+      class="campo-texto"
+      type="password"
+      id="currentPassword"
+      name="currentPassword"
+      placeholder="Contraseña Actual"
+      required
+    />
+    
+    <input
+      class="campo-texto"
+      type="password"
+      id="newPassword"
+      name="newPassword"
+      placeholder="Nueva Contraseña"
+      required
+      minlength="6"
+    />
+    
+    <input
+      class="campo-texto"
+      type="password"
+      id="confirmPassword"
+      name="confirmPassword"
+      placeholder="Confirmar Nueva Contraseña"
+      required
+      minlength="6"
+    />
+    
+    <button class="button iniciar-sesion-landing-button" type="submit">
+      Cambiar Contraseña
+    </button>
+    
+    <a href="/perfil" class="back-link">Volver al Perfil</a>
+  </form>
+</div>

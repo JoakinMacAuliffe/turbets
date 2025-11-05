@@ -22,6 +22,18 @@
     <h1 class="page-title">Mi Perfil</h1>
   </div>
 
+  {{#if error}}
+  <div class="error-message" style="background: rgba(220, 53, 69, 0.2); border: 1px solid #dc3545; color: #dc3545; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; text-align: center;">
+    {{error}}
+  </div>
+  {{/if}}
+
+  {{#if success}}
+  <div class="success-message" style="background: rgba(40, 167, 69, 0.2); border: 1px solid #28a745; color: #28a745; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; text-align: center;">
+    {{success}}
+  </div>
+  {{/if}}
+
   <div class="profile-content">
     <div class="profile-card">
       <div class="profile-avatar-section">
@@ -33,39 +45,101 @@
       </div>
 
       <div class="profile-info-section">
-        <div class="info-grid">
-          <div class="info-item">
-            <span class="info-label">Nombre Completo</span>
-            <span class="info-value">{{fullname}}</span>
+        <form id="profileForm" method="POST" action="/editar-perfil">
+          <div class="info-grid">
+            <div class="info-item">
+              <span class="info-label">Nombre Completo</span>
+              <span class="info-value" id="fullname-display">{{fullname}}</span>
+              <input type="text" class="info-input" id="fullname-input" name="fullname" value="{{fullname}}" style="display: none;">
+            </div>
+            
+            <div class="info-item">
+              <span class="info-label">Nombre de Usuario</span>
+              <span class="info-value" id="username-display">{{username}}</span>
+              <input type="text" class="info-input" id="username-input" name="username" value="{{username}}" style="display: none;">
+            </div>
+            
+            <div class="info-item">
+              <span class="info-label">Correo Electrónico</span>
+              <span class="info-value" id="email-display">{{email}}</span>
+              <input type="email" class="info-input" id="email-input" name="email" value="{{email}}" style="display: none;">
+            </div>
+            
+            <div class="info-item">
+              <span class="info-label">Fecha de Nacimiento</span>
+              <span class="info-value" id="birthDate-display">{{birthDate}}</span>
+              <input type="date" class="info-input" id="birthDate-input" name="birthDate" value="{{birthDate}}" style="display: none;">
+            </div>
+            
+            {{#if card_number}}
+            <div class="info-item">
+              <span class="info-label">Número de Tarjeta</span>
+              <span class="info-value" id="card_number-display">{{card_number}}</span>
+              <input type="text" class="info-input" id="card_number-input" name="card_number" value="{{card_number}}" style="display: none;">
+            </div>
+            {{/if}}
           </div>
-          
-          <div class="info-item">
-            <span class="info-label">Nombre de Usuario</span>
-            <span class="info-value">{{username}}</span>
-          </div>
-          
-          <div class="info-item">
-            <span class="info-label">Correo Electrónico</span>
-            <span class="info-value">{{email}}</span>
-          </div>
-          
-          <div class="info-item">
-            <span class="info-label">Fecha de Nacimiento</span>
-            <span class="info-value">{{birthDate}}</span>
-          </div>
-          
-          {{#if card_number}}
-          <div class="info-item">
-            <span class="info-label">Número de Tarjeta</span>
-            <span class="info-value">{{card_number}}</span>
-          </div>
-          {{/if}}
-        </div>
 
-        <div class="profile-actions">
-          <button class="edit-profile-btn">Editar Perfil</button>
-        </div>
+          <div class="profile-actions">
+            <button type="button" class="edit-profile-btn" id="editBtn">Editar Perfil</button>
+            <button type="submit" class="save-profile-btn" id="saveBtn" style="display: none;">Guardar Cambios</button>
+            <button type="button" class="cancel-edit-btn" id="cancelBtn" style="display: none;">Cancelar</button>
+            <button class="change-password-btn" type="button" onclick="window.location.href='/cambiar-contrasena'">Cambiar Contraseña</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  const editBtn = document.getElementById('editBtn');
+  const saveBtn = document.getElementById('saveBtn');
+  const cancelBtn = document.getElementById('cancelBtn');
+  
+  const fields = ['fullname', 'username', 'email', 'birthDate', 'card_number'];
+  let originalValues = {};
+
+  // Guardar valores originales
+  fields.forEach(field => {
+    const display = document.getElementById(`${field}-display`);
+    if (display) {
+      originalValues[field] = display.textContent;
+    }
+  });
+
+  editBtn.addEventListener('click', () => {
+    // Mostrar inputs y ocultar displays
+    fields.forEach(field => {
+      const display = document.getElementById(`${field}-display`);
+      const input = document.getElementById(`${field}-input`);
+      if (display && input) {
+        display.style.display = 'none';
+        input.style.display = 'block';
+      }
+    });
+
+    // Cambiar botones
+    editBtn.style.display = 'none';
+    saveBtn.style.display = 'inline-block';
+    cancelBtn.style.display = 'inline-block';
+  });
+
+  cancelBtn.addEventListener('click', () => {
+    // Restaurar valores originales y volver a modo visualización
+    fields.forEach(field => {
+      const display = document.getElementById(`${field}-display`);
+      const input = document.getElementById(`${field}-input`);
+      if (display && input) {
+        input.value = originalValues[field] || '';
+        display.style.display = 'block';
+        input.style.display = 'none';
+      }
+    });
+
+    // Cambiar botones
+    editBtn.style.display = 'inline-block';
+    saveBtn.style.display = 'none';
+    cancelBtn.style.display = 'none';
+  });
+</script>

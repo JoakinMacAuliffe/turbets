@@ -585,6 +585,129 @@ app.get("/perfil", requireAuth, (req, res) => {
   });
 });
 
+app.post("/editar-perfil", requireAuth, async (req, res) => {
+  try {
+    const { fullname, username, email, birthDate, card_number } = req.body;
+    const userId = req.session.userId;
+
+    // Validar que el username no esté siendo usado por otro usuario
+    if (username !== res.locals.user.username) {
+      const existingUser = await User.findOne({ username, _id: { $ne: userId } });
+      if (existingUser) {
+        return res.render("perfil", {
+          pageTitle: "Turbets - Mi Perfil",
+          fullname: res.locals.user.fullname,
+          username: res.locals.user.username,
+          email: res.locals.user.email,
+          birthDate: res.locals.user.fechaNacimiento ? formatDateUTC(res.locals.user.fechaNacimiento) : "",
+          saldo: res.locals.user.saldo,
+          error: "El nombre de usuario ya está en uso"
+        });
+      }
+    }
+
+    // Validar que el email no esté siendo usado por otro usuario
+    if (email !== res.locals.user.email) {
+      const existingEmail = await User.findOne({ email, _id: { $ne: userId } });
+      if (existingEmail) {
+        return res.render("perfil", {
+          pageTitle: "Turbets - Mi Perfil",
+          fullname: res.locals.user.fullname,
+          username: res.locals.user.username,
+          email: res.locals.user.email,
+          birthDate: res.locals.user.fechaNacimiento ? formatDateUTC(res.locals.user.fechaNacimiento) : "",
+          saldo: res.locals.user.saldo,
+          error: "El correo electrónico ya está en uso"
+        });
+      }
+    }
+
+    // Actualizar el usuario
+    const updateData = {
+      fullname,
+      username,
+      email,
+      fechaNacimiento: birthDate ? new Date(birthDate) : undefined
+    };
+
+    if (card_number) {
+      updateData.card_number = card_number;
+    }
+
+    await User.findByIdAndUpdate(userId, updateData);
+
+    // Redirigir con mensaje de éxito
+    res.redirect("/perfil");
+  } catch (error) {
+    console.error("Error actualizando perfil:", error);
+    res.render("perfil", {
+      pageTitle: "Turbets - Mi Perfil",
+      fullname: res.locals.user.fullname,
+      username: res.locals.user.username,
+      email: res.locals.user.email,
+      birthDate: res.locals.user.fechaNacimiento ? formatDateUTC(res.locals.user.fechaNacimiento) : "",
+      saldo: res.locals.user.saldo,
+      error: "Error al actualizar el perfil"
+    });
+  }
+});
+
+app.get("/cambiar-contrasena", requireAuth, (req, res) => {
+  res.render("cambiar-contrasena", {
+    pageTitle: "Turbets - Cambiar Contraseña"
+  });
+});
+
+app.post("/cambiar-contrasena", requireAuth, async (req, res) => {
+  try {
+    const { currentPassword, newPassword, confirmPassword } = req.body;
+    
+    // Validar que las contraseñas coincidan
+    if (newPassword !== confirmPassword) {
+      return res.render("cambiar-contrasena", {
+        pageTitle: "Turbets - Cambiar Contraseña",
+        error: "Las contraseñas no coinciden"
+      });
+    }
+    
+    // Validar longitud mínima
+    if (newPassword.length < 6) {
+      return res.render("cambiar-contrasena", {
+        pageTitle: "Turbets - Cambiar Contraseña",
+        error: "La contraseña debe tener al menos 6 caracteres"
+      });
+    }
+    
+    // Obtener usuario
+    const usuario = await User.findById(res.locals.user.id);
+    
+    // Verificar contraseña actual
+    const isMatch = await bcrypt.compare(currentPassword, usuario.password);
+    if (!isMatch) {
+      return res.render("cambiar-contrasena", {
+        pageTitle: "Turbets - Cambiar Contraseña",
+        error: "La contraseña actual es incorrecta"
+      });
+    }
+    
+    // Hash de la nueva contraseña
+    const salt = await bcrypt.genSalt(10);
+    usuario.password = await bcrypt.hash(newPassword, salt);
+    await usuario.save();
+    
+    res.render("cambiar-contrasena", {
+      pageTitle: "Turbets - Cambiar Contraseña",
+      success: "Contraseña cambiada exitosamente"
+    });
+    
+  } catch (error) {
+    res.render("cambiar-contrasena", {
+      pageTitle: "Turbets - Cambiar Contraseña",
+      error: "Error al cambiar la contraseña"
+    });
+  }
+});
+
 app.get("/deposito", requireAuth, (req, res) => {
   const u = res.locals.user || {};
   res.render("realizar-transaccion", {

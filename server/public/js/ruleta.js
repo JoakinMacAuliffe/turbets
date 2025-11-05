@@ -256,7 +256,6 @@ function actualizarHistorial(numero, gano, monto) {
   }
 }
 
-// ========== INICIALIZACIÓN ==========
 paintWheel();
 drawLabels();
 
@@ -285,7 +284,6 @@ if (window.ultimasApuestasData && window.ultimasApuestasData.length > 0) {
   });
 }
 
-// ========== EVENT LISTENERS ==========
 spinBtn.addEventListener('click', spin);
 
 // Selección de tipo de apuesta
@@ -327,7 +325,7 @@ document.querySelectorAll('.bet-type-btn').forEach(btn => {
   });
 });
 
-// Quick bet buttons
+// Botones para monto de apuesta
 document.querySelectorAll('.quick-bet-btn-header').forEach(btn => {
   btn.addEventListener('click', () => {
     const amount = parseInt(btn.getAttribute('data-amount'));
