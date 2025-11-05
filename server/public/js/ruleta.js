@@ -30,7 +30,7 @@ function drawLabels(){
   labelsWrap.className = 'labels';
   wheel.appendChild(labelsWrap);
 
-  const R = wheel.clientWidth / 2 - 35; // radio para posicionar cerca del borde
+  const R = wheel.clientWidth / 2 - 25; // radio para posicionar cerca del borde
 
   numbersCW.forEach((n, i) => {
     const label = document.createElement('div');

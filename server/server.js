@@ -31,6 +31,7 @@ mongoose
 
 const User = require("./models/User");
 const Transaction = require("./models/Transaction");
+const Apuesta = require("./models/Apuesta");
 
 // Configuracion de cookies
 
@@ -67,6 +68,7 @@ app.set("views", path.join(__dirname, "views"));
 // Body Parser
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Formatear fechas en UTC
 
@@ -371,6 +373,131 @@ app.post("/retiro", requireAuth, async (req, res) => {
     });
   }
 });
+
+// POST para apuestas
+
+app.post("/apuesta", requireAuth, async (req, res) => {
+  try {
+    const { monto, tipoApuesta, valor } = req.body;
+
+    const usuario = await User.findById(res.locals.user.id);
+
+    if (usuario.saldo < monto) {
+      return res.status(400).json({ error: "Saldo insuficiente "});
+    }
+
+    // Descontar del saldo
+    usuario.saldo -= monto;
+    await usuario.save();
+
+    // Crear registro de apuesta en MongoDB
+    const apuesta = new Apuesta({
+      user_id: usuario._id,
+      monto: monto,
+      tipoApuesta: tipoApuesta,
+      valorApostado: valor,
+      estado: 'En progreso'
+    });
+    await apuesta.save();
+
+    res.json({
+      success: true,
+      apuestaId: apuesta._id,
+      nuevoSaldo: usuario.saldo
+    });
+
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+});
+
+// POST para resultado de la apuesta
+
+app.post("/resultado-apuesta", requireAuth, async (req, res) => {
+  try {
+    const { apuestaId, numeroGanador } = req.body;
+
+    const apuesta = await Apuesta.findById(apuestaId);
+    const usuario = await User.findById(res.locals.user.id);
+
+    // Determinar si gano
+    const gano = verificarApuesta(apuesta.tipoApuesta, apuesta.valorApostado, numeroGanador);
+    const multiplicador = obtenerMultiplicador(apuesta.tipoApuesta);
+
+    let pago = 0;
+    if (gano) {
+      pago = apuesta.monto * multiplicador;
+      usuario.saldo += pago;
+      apuesta.estado = 'Ganada';
+    } else {
+      apuesta.estado = 'Perdida';
+    }
+
+    apuesta.numeroGanador = numeroGanador;
+    apuesta.pago = pago;
+
+    await apuesta.save();
+    await usuario.save();
+
+    res.json({
+      success: true,
+      gano: gano,
+      pago: pago,
+      nuevoSaldo: usuario.saldo
+    });
+
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
+// Funciones auxiliares para apuestas
+
+function verificarApuesta(tipo, valor, numeroGanador) {
+    const redSet = new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
+    
+    const esCero = numeroGanador === 0;
+
+    switch(tipo) {
+
+        case 'numero':
+            return valor === numeroGanador;
+        
+        case 'rojo': 
+            return !esCero && redSet.has(numeroGanador);
+
+        case 'negro': 
+            return !esCero && !redSet.has(numeroGanador);
+
+        case 'par': 
+            return !esCero && numeroGanador % 2 === 0;
+
+        case 'impar': 
+            return !esCero && numeroGanador % 2 === 1; 
+            
+        case 'docena': // 'valor' será 1 (1-12), 2 (13-24) o 3 (25-36)
+            if (esCero) return false;
+            if (valor === 1) return numeroGanador >= 1 && numeroGanador <= 12;
+            if (valor === 2) return numeroGanador >= 13 && numeroGanador <= 24;
+            if (valor === 3) return numeroGanador >= 25 && numeroGanador <= 36;
+            return false;
+            
+        default: 
+            return false;
+    }
+}
+
+function obtenerMultiplicador(tipo) {
+  const multiplicadores = {
+    'numero': 36,
+    'rojo': 2,
+    'negro': 2,
+    'par': 2,
+    'impar': 2,
+    'docena': 3,
+  };
+  return multiplicadores[tipo] || 1;
+}
 
 // RUTAS GET
 
