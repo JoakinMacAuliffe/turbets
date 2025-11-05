@@ -463,6 +463,22 @@ function verificarApuesta(tipo, valor, numeroGanador) {
         case 'pleno':
             return valor === numeroGanador;
         
+        case 'caballo': // valor será "num1,num2"
+            const caballo = valor.split(',').map(n => parseInt(n.trim()));
+            return caballo.includes(numeroGanador);
+        
+        case 'transversal': // valor será "num1-num2-num3"
+            const transversal = valor.split('-').map(n => parseInt(n.trim()));
+            return transversal.includes(numeroGanador);
+        
+        case 'cuadro': // valor será "num1,num2,num3,num4"
+            const cuadro = valor.split(',').map(n => parseInt(n.trim()));
+            return cuadro.includes(numeroGanador);
+        
+        case 'seisena': // valor será "inicio-fin" ej: "1-6"
+            const [inicio, fin] = valor.split('-').map(n => parseInt(n.trim()));
+            return numeroGanador >= inicio && numeroGanador <= fin;
+        
         case 'rojo': 
             return !esCero && redSet.has(numeroGanador);
 
@@ -494,6 +510,19 @@ function verificarApuesta(tipo, valor, numeroGanador) {
             // Columna 2: 2,5,8,11,14,17,20,23,26,29,32,35
             // Columna 3: 3,6,9,12,15,18,21,24,27,30,33,36
             return numeroGanador % 3 === (valor === 3 ? 0 : valor);
+        
+        case 'dos-docenas': // valor será "1-2" o "2-3"
+            if (esCero) return false;
+            if (valor === '1-2') return numeroGanador >= 1 && numeroGanador <= 24;
+            if (valor === '2-3') return numeroGanador >= 13 && numeroGanador <= 36;
+            return false;
+        
+        case 'dos-columnas': // valor será "1-2" o "2-3"
+            if (esCero) return false;
+            const resto = numeroGanador % 3;
+            if (valor === '1-2') return resto === 1 || resto === 2;
+            if (valor === '2-3') return resto === 2 || resto === 0;
+            return false;
             
         default: 
             return false;
@@ -503,14 +532,20 @@ function verificarApuesta(tipo, valor, numeroGanador) {
 function obtenerMultiplicador(tipo) {
   const multiplicadores = {
     'pleno': 36,
+    'caballo': 18,
+    'transversal': 12,
+    'cuadro': 9,
+    'seisena': 6,
+    'docena': 3,
+    'columna': 3,
+    'dos-docenas': 1.5,
+    'dos-columnas': 1.5,
     'rojo': 2,
     'negro': 2,
     'par': 2,
     'impar': 2,
     'falta': 2,
     'pasa': 2,
-    'docena': 3,
-    'columna': 3,
   };
   return multiplicadores[tipo] || 1;
 }

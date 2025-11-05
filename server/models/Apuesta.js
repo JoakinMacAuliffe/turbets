@@ -10,10 +10,11 @@ const apuestaSchema = new mongoose.Schema({
         type: mongoose.Types.Decimal128,
         required: true,
     },
-    tipoApuesta: {  // NUEVO
+    tipoApuesta: {
         type: String,
         required: true,
-        enum: ['pleno', 'rojo', 'negro', 'par', 'impar', 'falta', 'pasa', 'docena', 'columna']
+        enum: ['pleno', 'caballo', 'transversal', 'cuadro', 'seisena', 'docena', 'columna', 
+               'dos-docenas', 'dos-columnas', 'rojo', 'negro', 'par', 'impar', 'falta', 'pasa']
     },
     valorApostado: {  // NUEVO
         type: mongoose.Schema.Types.Mixed  // Puede ser número, string, etc.

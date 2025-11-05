@@ -95,10 +95,22 @@ async function spin() {
   // Obtener valor de la apuesta según tipo
   if (tipoApuestaActual === 'pleno') {
     valorApuesta = parseInt(document.getElementById('numero-apuesta').value);
+  } else if (tipoApuestaActual === 'caballo') {
+    valorApuesta = document.getElementById('caballo-apuesta').value;
+  } else if (tipoApuestaActual === 'transversal') {
+    valorApuesta = document.getElementById('transversal-apuesta').value;
+  } else if (tipoApuestaActual === 'cuadro') {
+    valorApuesta = document.getElementById('cuadro-apuesta').value;
+  } else if (tipoApuestaActual === 'seisena') {
+    valorApuesta = document.getElementById('seisena-apuesta').value;
   } else if (tipoApuestaActual === 'docena') {
     valorApuesta = parseInt(document.getElementById('docena-apuesta').value);
   } else if (tipoApuestaActual === 'columna') {
     valorApuesta = parseInt(document.getElementById('columna-apuesta').value);
+  } else if (tipoApuestaActual === 'dos-docenas') {
+    valorApuesta = document.getElementById('dos-docenas-apuesta').value;
+  } else if (tipoApuestaActual === 'dos-columnas') {
+    valorApuesta = document.getElementById('dos-columnas-apuesta').value;
   } else {
     valorApuesta = tipoApuestaActual;
   }
@@ -260,20 +272,34 @@ document.querySelectorAll('.bet-type-btn').forEach(btn => {
     btn.classList.add('active');
     tipoApuestaActual = btn.dataset.type;
     
-    const numeroInput = document.getElementById('numero-input');
-    const docenaInput = document.getElementById('docena-input');
-    const columnaInput = document.getElementById('columna-input');
+    // Ocultar todos los inputs primero
+    const inputs = [
+      'numero-input', 'caballo-input', 'transversal-input', 'cuadro-input', 
+      'seisena-input', 'docena-input', 'columna-input', 
+      'dos-docenas-input', 'dos-columnas-input'
+    ];
+    inputs.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+    });
     
-    numeroInput.style.display = 'none';
-    docenaInput.style.display = 'none';
-    columnaInput.style.display = 'none';
+    // Mostrar el input correspondiente
+    const inputMap = {
+      'pleno': 'numero-input',
+      'caballo': 'caballo-input',
+      'transversal': 'transversal-input',
+      'cuadro': 'cuadro-input',
+      'seisena': 'seisena-input',
+      'docena': 'docena-input',
+      'columna': 'columna-input',
+      'dos-docenas': 'dos-docenas-input',
+      'dos-columnas': 'dos-columnas-input'
+    };
     
-    if (tipoApuestaActual === 'pleno') {
-      numeroInput.style.display = 'block';
-    } else if (tipoApuestaActual === 'docena') {
-      docenaInput.style.display = 'block';
-    } else if (tipoApuestaActual === 'columna') {
-      columnaInput.style.display = 'block';
+    const inputId = inputMap[tipoApuestaActual];
+    if (inputId) {
+      const el = document.getElementById(inputId);
+      if (el) el.style.display = 'block';
     }
   });
 });

@@ -2325,8 +2325,9 @@ body.info_app {
   border: 1px solid rgba(218, 165, 32, 0.3);
   border-radius: 12px;
   width: 100%;
+  display: flex;
+  flex-direction: column;
   height: fit-content;
-  overflow: visible;
 }
 
 .bet-type-selector h4 {
@@ -2337,13 +2338,38 @@ body.info_app {
   text-transform: uppercase;
   letter-spacing: 1px;
   text-align: center;
+  flex-shrink: 0;
 }
 
 .bet-type-buttons {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* Estilo de scrollbar para los botones de apuestas */
+.bet-type-buttons::-webkit-scrollbar {
+  width: 6px;
+}
+
+.bet-type-buttons::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.bet-type-buttons::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(218, 165, 32, 0.6), rgba(218, 165, 32, 0.3));
+  border-radius: 10px;
+}
+
+.bet-type-buttons::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(218, 165, 32, 0.8), rgba(218, 165, 32, 0.5));
 }
 
 .bet-type-btn {
@@ -2374,6 +2400,8 @@ body.info_app {
 .numero-selector {
   margin-top: 0.5rem;
   text-align: center;
+  flex-shrink: 0;
+  position: relative;
 }
 
 .numero-selector label {
@@ -2386,10 +2414,11 @@ body.info_app {
   letter-spacing: 0.5px;
 }
 
-.numero-selector input {
+.numero-selector input,
+.numero-selector select {
   width: 100%;
   padding: 0.6rem;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 700;
   color: #fff;
   background: rgba(0, 0, 0, 0.4);
@@ -2400,9 +2429,17 @@ body.info_app {
   text-align: center;
 }
 
-.numero-selector input:focus {
+.numero-selector input:focus,
+.numero-selector select:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+}
+
+.numero-selector small {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.65rem;
+  color: #999;
 }
 
 .game-page-container {

@@ -65,33 +65,50 @@
             class="bet-type-btn active"
             data-type="pleno"
             data-label="Pleno"
-            data-pago="35"
           >
             Pleno - 1 número (35:1)
           </button>
-          <button class="bet-type-btn" data-type="rojo" data-label="Rojo" data-pago="1">
-            Rojo - 18 números (1:1)
+          <button class="bet-type-btn" data-type="caballo" data-label="Caballo">
+            Caballo - 2 números (17:1)
           </button>
-          <button class="bet-type-btn" data-type="negro" data-label="Negro" data-pago="1">
-            Negro - 18 números (1:1)
+          <button class="bet-type-btn" data-type="transversal" data-label="Transversal">
+            Transversal - 3 números (11:1)
           </button>
-          <button class="bet-type-btn" data-type="par" data-label="Par" data-pago="1">
-            Par - 18 números (1:1)
+          <button class="bet-type-btn" data-type="cuadro" data-label="Cuadro">
+            Cuadro - 4 números (8:1)
           </button>
-          <button class="bet-type-btn" data-type="impar" data-label="Impar" data-pago="1">
-            Impar - 18 números (1:1)
+          <button class="bet-type-btn" data-type="seisena" data-label="Seisena">
+            Seisena - 6 números (5:1)
           </button>
-          <button class="bet-type-btn" data-type="falta" data-label="Falta" data-pago="1">
-            Falta (1-18) - 18 números (1:1)
-          </button>
-          <button class="bet-type-btn" data-type="pasa" data-label="Pasa" data-pago="1">
-            Pasa (19-36) - 18 números (1:1)
-          </button>
-          <button class="bet-type-btn" data-type="docena" data-label="Docena" data-pago="2">
+          <button class="bet-type-btn" data-type="docena" data-label="Docena">
             Docena - 12 números (2:1)
           </button>
-          <button class="bet-type-btn" data-type="columna" data-label="Columna" data-pago="2">
+          <button class="bet-type-btn" data-type="columna" data-label="Columna">
             Columna - 12 números (2:1)
+          </button>
+          <button class="bet-type-btn" data-type="dos-docenas" data-label="Dos Docenas">
+            Dos Docenas - 24 números (0.5:1)
+          </button>
+          <button class="bet-type-btn" data-type="dos-columnas" data-label="Dos Columnas">
+            Dos Columnas - 24 números (0.5:1)
+          </button>
+          <button class="bet-type-btn" data-type="rojo" data-label="Rojo">
+            Rojo - 18 números (1:1)
+          </button>
+          <button class="bet-type-btn" data-type="negro" data-label="Negro">
+            Negro - 18 números (1:1)
+          </button>
+          <button class="bet-type-btn" data-type="par" data-label="Par">
+            Par - 18 números (1:1)
+          </button>
+          <button class="bet-type-btn" data-type="impar" data-label="Impar">
+            Impar - 18 números (1:1)
+          </button>
+          <button class="bet-type-btn" data-type="falta" data-label="Falta">
+            Falta (1-18) - 18 números (1:1)
+          </button>
+          <button class="bet-type-btn" data-type="pasa" data-label="Pasa">
+            Pasa (19-36) - 18 números (1:1)
           </button>
         </div>
 
@@ -106,6 +123,55 @@
           />
         </div>
 
+        <div id="caballo-input" class="numero-selector" style="display: none;">
+          <label>Seleccionar 2 Números Contiguos</label>
+          <input type="text" id="caballo-apuesta" placeholder="Ej: 1,2 o 5,8" />
+          <small style="color: #999;">Ingresa dos números contiguos separados por coma</small>
+        </div>
+
+        <div id="transversal-input" class="numero-selector" style="display: none;">
+          <label>Seleccionar Transversal</label>
+          <select id="transversal-apuesta">
+            <option value="0-1-2">0, 1, 2</option>
+            <option value="0-2-3">0, 2, 3</option>
+            <option value="1-2-3">1, 2, 3</option>
+            <option value="4-5-6">4, 5, 6</option>
+            <option value="7-8-9">7, 8, 9</option>
+            <option value="10-11-12">10, 11, 12</option>
+            <option value="13-14-15">13, 14, 15</option>
+            <option value="16-17-18">16, 17, 18</option>
+            <option value="19-20-21">19, 20, 21</option>
+            <option value="22-23-24">22, 23, 24</option>
+            <option value="25-26-27">25, 26, 27</option>
+            <option value="28-29-30">28, 29, 30</option>
+            <option value="31-32-33">31, 32, 33</option>
+            <option value="34-35-36">34, 35, 36</option>
+          </select>
+        </div>
+
+        <div id="cuadro-input" class="numero-selector" style="display: none;">
+          <label>Seleccionar 4 Números (Cuadro)</label>
+          <input type="text" id="cuadro-apuesta" placeholder="Ej: 1,2,4,5" />
+          <small style="color: #999;">Ingresa 4 números que formen un cuadrado, separados por coma</small>
+        </div>
+
+        <div id="seisena-input" class="numero-selector" style="display: none;">
+          <label>Seleccionar Seisena (2 filas contiguas)</label>
+          <select id="seisena-apuesta">
+            <option value="1-6">1, 2, 3, 4, 5, 6</option>
+            <option value="4-9">4, 5, 6, 7, 8, 9</option>
+            <option value="7-12">7, 8, 9, 10, 11, 12</option>
+            <option value="10-15">10, 11, 12, 13, 14, 15</option>
+            <option value="13-18">13, 14, 15, 16, 17, 18</option>
+            <option value="16-21">16, 17, 18, 19, 20, 21</option>
+            <option value="19-24">19, 20, 21, 22, 23, 24</option>
+            <option value="22-27">22, 23, 24, 25, 26, 27</option>
+            <option value="25-30">25, 26, 27, 28, 29, 30</option>
+            <option value="28-33">28, 29, 30, 31, 32, 33</option>
+            <option value="31-36">31, 32, 33, 34, 35, 36</option>
+          </select>
+        </div>
+
         <div id="docena-input" class="numero-selector" style="display: none;">
           <label>Seleccionar Docena</label>
           <select id="docena-apuesta">
@@ -118,9 +184,25 @@
         <div id="columna-input" class="numero-selector" style="display: none;">
           <label>Seleccionar Columna</label>
           <select id="columna-apuesta">
-            <option value="1">Primera Columna (3,6,9...)</option>
-            <option value="2">Segunda Columna (2,5,8...)</option>
-            <option value="3">Tercera Columna (1,4,7...)</option>
+            <option value="1">Primera Columna (1,4,7,10...)</option>
+            <option value="2">Segunda Columna (2,5,8,11...)</option>
+            <option value="3">Tercera Columna (3,6,9,12...)</option>
+          </select>
+        </div>
+
+        <div id="dos-docenas-input" class="numero-selector" style="display: none;">
+          <label>Seleccionar Dos Docenas Contiguas</label>
+          <select id="dos-docenas-apuesta">
+            <option value="1-2">Primera y Segunda (1-24)</option>
+            <option value="2-3">Segunda y Tercera (13-36)</option>
+          </select>
+        </div>
+
+        <div id="dos-columnas-input" class="numero-selector" style="display: none;">
+          <label>Seleccionar Dos Columnas Contiguas</label>
+          <select id="dos-columnas-apuesta">
+            <option value="1-2">Columna 1 y 2</option>
+            <option value="2-3">Columna 2 y 3</option>
           </select>
         </div>
       </div>
