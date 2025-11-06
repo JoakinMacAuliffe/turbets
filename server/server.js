@@ -349,7 +349,7 @@ app.post("/retiro", requireAuth, async (req, res) => {
     }
 
     const postBalance = usuarioActualizado.saldo;
-    const preBalance = postBalance - amount;
+    const preBalance = postBalance + amount;
 
     await Transaction.create({
       type: "RETIRO",
@@ -559,6 +559,83 @@ app.get("/", (req, res) => {
 app.get("/acceso", (req, res) =>
   res.render("acceso", { pageTitle: "Turbets - Acceso" })
 );
+
+app.get("/recuperar-contrasena", (req, res) => {
+  res.render("recuperar-contrasena", { 
+    pageTitle: "Turbets - Recuperar Contraseña",
+    showPasswordFields: false
+  });
+});
+
+app.post("/recuperar-contrasena", async (req, res) => {
+  try {
+    const { email, newPassword, confirmPassword, step } = req.body;
+
+    // Si es el primer paso, verificar que el usuario existe
+    if (!step || step !== 'reset') {
+      const user = await User.findOne({ email });
+      
+      if (!user) {
+        return res.render("recuperar-contrasena", {
+          pageTitle: "Turbets - Recuperar Contraseña",
+          error: "No existe una cuenta con ese correo electrónico",
+          showPasswordFields: false
+        });
+      }
+
+      // Usuario existe, mostrar campos de contraseña
+      return res.render("recuperar-contrasena", {
+        pageTitle: "Turbets - Recuperar Contraseña",
+        showPasswordFields: true,
+        email: email
+      });
+    }
+
+    // Segundo paso: cambiar la contraseña
+    if (step === 'reset') {
+      // Validar que las contraseñas coincidan
+      if (newPassword !== confirmPassword) {
+        return res.render("recuperar-contrasena", {
+          pageTitle: "Turbets - Recuperar Contraseña",
+          error: "Las contraseñas no coinciden",
+          showPasswordFields: true,
+          email: email
+        });
+      }
+
+      // Buscar usuario y actualizar contraseña
+      const user = await User.findOne({ email });
+      
+      if (!user) {
+        return res.render("recuperar-contrasena", {
+          pageTitle: "Turbets - Recuperar Contraseña",
+          error: "Error al procesar la solicitud",
+          showPasswordFields: false
+        });
+      }
+
+      // Hash de la nueva contraseña
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      user.passwordHash = hashedPassword;
+      await user.save();
+
+      // Redirigir al login con mensaje de éxito
+      return res.render("acceso", {
+        pageTitle: "Turbets - Acceso",
+        success: "Contraseña actualizada correctamente. Inicia sesión con tu nueva contraseña."
+      });
+    }
+
+  } catch (error) {
+    console.error("Error en recuperación de contraseña:", error);
+    res.render("recuperar-contrasena", {
+      pageTitle: "Turbets - Recuperar Contraseña",
+      error: "Error al procesar la solicitud",
+      showPasswordFields: false
+    });
+  }
+});
+
 app.get("/info-app", (req, res) =>
   res.render("info-app", {
     pageTitle: "Turbets - Información",
@@ -682,7 +759,7 @@ app.post("/cambiar-contrasena", requireAuth, async (req, res) => {
     const usuario = await User.findById(res.locals.user.id);
     
     // Verificar contraseña actual
-    const isMatch = await bcrypt.compare(currentPassword, usuario.password);
+    const isMatch = await bcrypt.compare(currentPassword, usuario.passwordHash);
     if (!isMatch) {
       return res.render("cambiar-contrasena", {
         pageTitle: "Turbets - Cambiar Contraseña",
@@ -692,7 +769,7 @@ app.post("/cambiar-contrasena", requireAuth, async (req, res) => {
     
     // Hash de la nueva contraseña
     const salt = await bcrypt.genSalt(10);
-    usuario.password = await bcrypt.hash(newPassword, salt);
+    usuario.passwordHash = await bcrypt.hash(newPassword, salt);
     await usuario.save();
     
     res.render("cambiar-contrasena", {

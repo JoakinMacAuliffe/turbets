@@ -6,6 +6,10 @@
       <p class="error-message">{{error}}</p>
     {{/if}}
 
+    {{#if success}}
+      <p class="success-message">{{success}}</p>
+    {{/if}}
+
     <input
       class="campo-texto"
       type="email"
@@ -25,7 +29,7 @@
     <button class="button iniciar-sesion-landing-button" type="submit">
       Iniciar Sesión
     </button>
-    <button type="button" class="olvidar-password-button">¿Olvidaste tu
+    <button type="button" class="olvidar-password-button" onclick="window.location.href='/recuperar-contrasena'">¿Olvidaste tu
       contraseña?</button>
     <div class="separator"></div>
   </form>

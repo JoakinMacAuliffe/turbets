@@ -2191,29 +2191,16 @@ body.info_app {
 
 .pointer {
   position: absolute; 
-  top: -25px; /* Move further up */
+  top: 17px; 
   left: 50%; 
   transform: translateX(-50%);
   width: 0; 
   height: 0;
-  border-left: 18px solid transparent; /* Larger pointer */
+  border-left: 18px solid transparent;
   border-right: 18px solid transparent;
   border-top: 30px solid var(--accent);
   z-index: 3;
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
-  /* Add pulse animation */
-  animation: pointerPulse 0.6s ease-in-out infinite;
-}
-
-@keyframes pointerPulse {
-  0%, 100% {
-    opacity: 1;
-    transform: translateX(-50%) scale(1);
-  }
-  50% {
-    opacity: 0.7;
-    transform: translateX(-50%) scale(1.2);
-  }
 }
 
 .wheel {

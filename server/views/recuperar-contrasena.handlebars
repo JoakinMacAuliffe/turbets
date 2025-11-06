@@ -1,0 +1,66 @@
+<div class="container container-login">
+  <form action="/recuperar-contrasena" method="POST">
+    <h2 class="form-title">Recuperar Contraseña</h2>
+
+    {{#if error}}
+      <p class="error-message">{{error}}</p>
+    {{/if}}
+
+    {{#if success}}
+      <p class="success-message">{{success}}</p>
+    {{/if}}
+
+    {{#unless showPasswordFields}}
+    <p style="color: #e0e0e0; text-align: center; margin-bottom: 1.5rem;">
+      Ingresa tu correo electrónico para recuperar tu contraseña
+    </p>
+
+    <input
+      class="campo-texto"
+      type="email"
+      id="email"
+      name="email"
+      placeholder="Ingrese su correo electrónico"
+      required
+    />
+
+    <button class="button iniciar-sesion-landing-button" type="submit">
+      Continuar
+    </button>
+    {{/unless}}
+
+    {{#if showPasswordFields}}
+    <p style="color: #e0e0e0; text-align: center; margin-bottom: 1.5rem;">
+      Ingresa tu nueva contraseña
+    </p>
+
+    <input type="hidden" name="email" value="{{email}}">
+
+    <input
+      class="campo-texto"
+      type="password"
+      id="newPassword"
+      name="newPassword"
+      placeholder="Nueva contraseña"
+      required
+    />
+
+    <input
+      class="campo-texto"
+      type="password"
+      id="confirmPassword"
+      name="confirmPassword"
+      placeholder="Repetir nueva contraseña"
+      required
+    />
+
+    <button class="button iniciar-sesion-landing-button" type="submit" name="step" value="reset">
+      Cambiar Contraseña
+    </button>
+    {{/if}}
+
+    <button type="button" class="olvidar-password-button" onclick="window.location.href='/acceso'">
+      Volver al inicio de sesión
+    </button>
+  </form>
+</div>
