@@ -280,12 +280,12 @@ function actualizarHistorial(numero, gano, monto, pago = 0) {
   `;
   apuestasLista.insertBefore(li2, apuestasLista.firstChild);
   
-  while (apuestasLista.children.length > 6) { // 5 apuestas + 1 placeholder
-    const lastChild = apuestasLista.lastChild;
-    if (!lastChild.classList.contains('empty-placeholder')) {
-      apuestasLista.removeChild(lastChild);
-    } else {
-      break;
+  // Mantener solo 5 apuestas (sin contar el placeholder)
+  const apuestasItems = apuestasLista.querySelectorAll('.bet-item');
+  if (apuestasItems.length > 5) {
+    // Eliminar las apuestas más antiguas (más allá de 5)
+    for (let i = 5; i < apuestasItems.length; i++) {
+      apuestasLista.removeChild(apuestasItems[i]);
     }
   }
 }

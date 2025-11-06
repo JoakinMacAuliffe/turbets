@@ -48,6 +48,7 @@ app.engine(
     partialsDir: path.join(__dirname, "views", "partials"), // Partials son elementos compuestos, en este caso, el header
     helpers: {
       eq: (a, b) => a === b,
+      add: (a, b) => a + b,
       formatDate: (date) => { // Helper para que salgan bien las fechas
         if (!date) return "";
         const d = new Date(date);
@@ -58,6 +59,63 @@ app.engine(
       shortId: (id) => {
         if (!id) return '';
         return id.toString().substring(0, 8).toUpperCase();
+      },
+      formatTipoApuesta: (tipo) => {
+        const tipos = {
+          'pleno': 'Pleno',
+          'caballo': 'Caballo',
+          'transversal': 'Transversal',
+          'cuadro': 'Cuadro',
+          'seisena': 'Seisena',
+          'docena': 'Docena',
+          'columna': 'Columna',
+          'dos-docenas': 'Dos Docenas',
+          'dos-columnas': 'Dos Columnas',
+          'rojo': 'Rojo',
+          'negro': 'Negro',
+          'par': 'Par',
+          'impar': 'Impar',
+          'falta': 'Falta (1-18)',
+          'pasa': 'Pasa (19-36)'
+        };
+        return tipos[tipo] || tipo;
+      },
+      formatValorApostado: (valor, tipo) => {
+        if (!valor) return '-';
+        
+        // Para apuestas simples (rojo, negro, par, impar, falta, pasa)
+        if (['rojo', 'negro', 'par', 'impar', 'falta', 'pasa'].includes(tipo)) {
+          return '-';
+        }
+        
+        // Para docenas y columnas
+        if (tipo === 'docena') {
+          const docenas = { '1': '1ra (1-12)', '2': '2da (13-24)', '3': '3ra (25-36)' };
+          return docenas[valor] || `Docena ${valor}`;
+        }
+        
+        if (tipo === 'columna') {
+          const columnas = { '1': '1ra', '2': '2da', '3': '3ra' };
+          return `${columnas[valor] || valor} columna`;
+        }
+        
+        // Para dos docenas y dos columnas
+        if (tipo === 'dos-docenas') {
+          return valor === '1-2' ? '1ra y 2da (1-24)' : '2da y 3ra (13-36)';
+        }
+        
+        if (tipo === 'dos-columnas') {
+          return valor === '1-2' ? '1ra y 2da columnas' : '2da y 3ra columnas';
+        }
+        
+        // Para seisena (rango)
+        if (tipo === 'seisena') {
+          return valor.replace('-', ' a ');
+        }
+        
+        // Para otros tipos (pleno, caballo, transversal, cuadro)
+        // Reemplazar separadores por comas y espacios
+        return valor.toString().replace(/,/g, ', ').replace(/-/g, ', ');
       }
     },
   })
@@ -666,7 +724,7 @@ app.get("/perfil", requireAuth, (req, res) => {
 app.post("/editar-perfil", requireAuth, async (req, res) => {
   try {
     const { fullname, username, email, birthDate, card_number } = req.body;
-    const userId = req.session.userId;
+    const userId = res.locals.user.id;
 
     // Validar que el username no esté siendo usado por otro usuario
     if (username !== res.locals.user.username) {
@@ -679,6 +737,7 @@ app.post("/editar-perfil", requireAuth, async (req, res) => {
           email: res.locals.user.email,
           birthDate: res.locals.user.fechaNacimiento ? formatDateUTC(res.locals.user.fechaNacimiento) : "",
           saldo: res.locals.user.saldo,
+          isLoggedIn: true,
           error: "El nombre de usuario ya está en uso"
         });
       }
@@ -695,6 +754,7 @@ app.post("/editar-perfil", requireAuth, async (req, res) => {
           email: res.locals.user.email,
           birthDate: res.locals.user.fechaNacimiento ? formatDateUTC(res.locals.user.fechaNacimiento) : "",
           saldo: res.locals.user.saldo,
+          isLoggedIn: true,
           error: "El correo electrónico ya está en uso"
         });
       }
@@ -725,6 +785,7 @@ app.post("/editar-perfil", requireAuth, async (req, res) => {
       email: res.locals.user.email,
       birthDate: res.locals.user.fechaNacimiento ? formatDateUTC(res.locals.user.fechaNacimiento) : "",
       saldo: res.locals.user.saldo,
+      isLoggedIn: true,
       error: "Error al actualizar el perfil"
     });
   }
@@ -732,7 +793,8 @@ app.post("/editar-perfil", requireAuth, async (req, res) => {
 
 app.get("/cambiar-contrasena", requireAuth, (req, res) => {
   res.render("cambiar-contrasena", {
-    pageTitle: "Turbets - Cambiar Contraseña"
+    pageTitle: "Turbets - Cambiar Contraseña",
+    isLoggedIn: true
   });
 });
 
@@ -744,26 +806,28 @@ app.post("/cambiar-contrasena", requireAuth, async (req, res) => {
     if (newPassword !== confirmPassword) {
       return res.render("cambiar-contrasena", {
         pageTitle: "Turbets - Cambiar Contraseña",
+        isLoggedIn: true,
         error: "Las contraseñas no coinciden"
-      });
-    }
-    
-    // Validar longitud mínima
-    if (newPassword.length < 6) {
-      return res.render("cambiar-contrasena", {
-        pageTitle: "Turbets - Cambiar Contraseña",
-        error: "La contraseña debe tener al menos 6 caracteres"
       });
     }
     
     // Obtener usuario
     const usuario = await User.findById(res.locals.user.id);
     
+    if (!usuario) {
+      return res.render("cambiar-contrasena", {
+        pageTitle: "Turbets - Cambiar Contraseña",
+        isLoggedIn: true,
+        error: "Usuario no encontrado"
+      });
+    }
+    
     // Verificar contraseña actual
     const isMatch = await bcrypt.compare(currentPassword, usuario.passwordHash);
     if (!isMatch) {
       return res.render("cambiar-contrasena", {
         pageTitle: "Turbets - Cambiar Contraseña",
+        isLoggedIn: true,
         error: "La contraseña actual es incorrecta"
       });
     }
@@ -775,12 +839,15 @@ app.post("/cambiar-contrasena", requireAuth, async (req, res) => {
     
     res.render("cambiar-contrasena", {
       pageTitle: "Turbets - Cambiar Contraseña",
+      isLoggedIn: true,
       success: "Contraseña cambiada exitosamente"
     });
     
   } catch (error) {
+    console.error("Error al cambiar contraseña:", error);
     res.render("cambiar-contrasena", {
       pageTitle: "Turbets - Cambiar Contraseña",
+      isLoggedIn: true,
       error: "Error al cambiar la contraseña"
     });
   }
@@ -891,6 +958,77 @@ app.get("/transacciones", requireAuth, async (req, res) => {
       pageTitle: 'Turbets - Transacciones',
       transactions: [],
       error: 'Error al cargar las transacciones'
+    });
+  }
+});
+
+app.get("/historial-apuestas", requireAuth, async (req, res) => {
+  try {
+    // Obtener datos para filtrar
+    const limit = parseInt(req.query.limit) || 50;
+    const estado = req.query.estado || '';
+    const tipoApuesta = req.query.tipoApuesta || '';
+    const dateFrom = req.query.dateFrom || '';
+    const dateTo = req.query.dateTo || '';
+
+    // Crear query
+    const query = { 
+      user_id: res.locals.user.id,
+      numeroGanador: { $ne: null } // Solo apuestas completadas
+    };
+    
+    // Filtrar por estado
+    if (estado) {
+      query.estado = estado;
+    }
+    
+    // Filtrar por tipo de apuesta
+    if (tipoApuesta) {
+      query.tipoApuesta = tipoApuesta;
+    }
+    
+    // Filtrar por fecha
+    if (dateFrom || dateTo) {
+      query.createdAt = {};
+      if (dateFrom) {
+        query.createdAt.$gte = new Date(dateFrom);
+      }
+      if (dateTo) {
+        const endDate = new Date(dateTo);
+        endDate.setHours(23, 59, 59, 999);
+        query.createdAt.$lte = endDate;
+      }
+    }
+
+    const apuestas = await Apuesta.find(query)
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .lean();
+
+    // Formatear montos y pagos
+    const apuestasFormateadas = apuestas.map(a => ({
+      ...a,
+      monto: a.monto ? parseFloat(a.monto.toString()) : 0,
+      pago: a.pago ? parseFloat(a.pago.toString()) : 0
+    }));
+
+    res.render('historial-apuestas', {
+      pageTitle: 'Turbets - Historial de Apuestas',
+      isLoggedIn: true,
+      apuestas: apuestasFormateadas,
+      limit,
+      estado,
+      tipoApuesta,
+      dateFrom,
+      dateTo
+    });
+  } catch (error) {
+    console.error('Error cargando historial de apuestas:', error);
+    res.render('historial-apuestas', {
+      pageTitle: 'Turbets - Historial de Apuestas',
+      isLoggedIn: true,
+      apuestas: [],
+      error: 'Error al cargar el historial de apuestas'
     });
   }
 });
