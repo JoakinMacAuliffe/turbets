@@ -426,7 +426,8 @@ app.post("/resultado-apuesta", requireAuth, async (req, res) => {
 
     let pago = 0;
     if (gano) {
-      pago = Math.floor(apuesta.monto * multiplicador);
+      const montoNumerico = parseFloat(apuesta.monto.toString());
+      pago = Math.floor(montoNumerico * multiplicador);
       usuario.saldo += pago;
       apuesta.estado = 'Ganada';
     } else {
@@ -821,7 +822,8 @@ app.get("/juego", requireAuth, async (req, res) => {
       tipoApuesta: a.tipoApuesta,
       monto: parseFloat(a.monto.toString()),
       estado: a.estado,
-      numeroGanador: a.numeroGanador
+      numeroGanador: a.numeroGanador,
+      pago: a.pago ? parseFloat(a.pago.toString()) : 0
     }));
 
     res.render("juego", {

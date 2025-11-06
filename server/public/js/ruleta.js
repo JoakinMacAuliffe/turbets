@@ -215,7 +215,7 @@ async function onEnd() {
     saldoElement.textContent = `$${data.nuevoSaldo}`;
     
     // Actualizar historial
-    actualizarHistorial(numeroGanador, data.gano, parseInt(betInput.value));
+    actualizarHistorial(numeroGanador, data.gano, parseInt(betInput.value), data.pago);
     
   } catch (error) {
     console.error('Error al procesar resultado:', error);
@@ -228,7 +228,7 @@ async function onEnd() {
   void wheel.offsetWidth;
 }
 
-function actualizarHistorial(numero, gano, monto) {
+function actualizarHistorial(numero, gano, monto, pago = 0) {
   // Actualizar últimos 5 números
   const numerosLista = document.querySelector('.stat-card:nth-child(2) .stat-list');
   const color = (numero===0) ? 'green' : (isRed(numero) ? 'red' : 'black');
@@ -245,14 +245,48 @@ function actualizarHistorial(numero, gano, monto) {
   
   // Actualizar últimas 5 apuestas
   const apuestasLista = document.querySelector('.stat-card:nth-child(3) .stat-list');
+  
+  // Ocultar placeholder si existe
+  const placeholder = apuestasLista.querySelector('.empty-placeholder');
+  if (placeholder) {
+    placeholder.style.display = 'none';
+  }
+  
   const li2 = document.createElement('li');
   li2.className = `bet-item ${gano ? 'win' : 'loss'}`;
   const nombreFormateado = formatearNombreApuesta(tipoApuestaActual);
-  li2.innerHTML = `${nombreFormateado} - $${monto} <span class="bet-result">${gano ? 'Victoria' : 'Derrota'}</span>`;
+  
+  // Asegurar que monto y pago sean números válidos
+  const montoValido = parseFloat(monto) || 0;
+  const pagoValido = parseFloat(pago) || 0;
+  
+  // Calcular variación del saldo
+  // Si gana: el pago es la ganancia pura (ya se descontó el monto al apostar)
+  // Si pierde: se pierde el monto apostado
+  const variacion = gano ? pagoValido : -montoValido;
+  const variacionTexto = variacion >= 0 ? `+$${variacion}` : `-$${Math.abs(variacion)}`;
+  const variacionColor = variacion >= 0 ? '#4ade80' : '#ef4444';
+  
+  li2.innerHTML = `
+    <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span>${nombreFormateado} - $${montoValido}</span>
+        <span class="bet-result">${gano ? 'Victoria' : 'Derrota'}</span>
+      </div>
+      <div style="font-size: 0.85rem; color: ${variacionColor}; font-weight: 600;">
+        ${variacionTexto}
+      </div>
+    </div>
+  `;
   apuestasLista.insertBefore(li2, apuestasLista.firstChild);
   
-  while (apuestasLista.children.length > 5) {
-    apuestasLista.removeChild(apuestasLista.lastChild);
+  while (apuestasLista.children.length > 6) { // 5 apuestas + 1 placeholder
+    const lastChild = apuestasLista.lastChild;
+    if (!lastChild.classList.contains('empty-placeholder')) {
+      apuestasLista.removeChild(lastChild);
+    } else {
+      break;
+    }
   }
 }
 
@@ -274,12 +308,41 @@ if (window.ultimosNumerosData && window.ultimosNumerosData.length > 0) {
 
 if (window.ultimasApuestasData && window.ultimasApuestasData.length > 0) {
   const apuestasLista = document.querySelector('.stat-card:nth-child(3) .stat-list');
+  
+  // Ocultar placeholder si existe
+  const placeholder = apuestasLista.querySelector('.empty-placeholder');
+  if (placeholder) {
+    placeholder.style.display = 'none';
+  }
+  
   window.ultimasApuestasData.forEach(apuesta => {
     const gano = apuesta.estado === 'Ganada';
     const li = document.createElement('li');
     li.className = `bet-item ${gano ? 'win' : 'loss'}`;
     const nombreFormateado = formatearNombreApuesta(apuesta.tipoApuesta);
-    li.innerHTML = `${nombreFormateado} - $${apuesta.monto} <span class="bet-result">${gano ? 'Victoria' : 'Derrota'}</span>`;
+    
+    // Asegurar que monto y pago sean números válidos
+    const monto = parseFloat(apuesta.monto) || 0;
+    const pago = parseFloat(apuesta.pago) || 0;
+    
+    // Calcular variación del saldo
+    // Si gana: el pago es la ganancia pura (ya se descontó el monto al apostar)
+    // Si pierde: se pierde el monto apostado
+    const variacion = gano ? pago : -monto;
+    const variacionTexto = variacion >= 0 ? `+$${variacion}` : `-$${Math.abs(variacion)}`;
+    const variacionColor = variacion >= 0 ? '#4ade80' : '#ef4444';
+    
+    li.innerHTML = `
+      <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span>${nombreFormateado} - $${monto}</span>
+          <span class="bet-result">${gano ? 'Victoria' : 'Derrota'}</span>
+        </div>
+        <div style="font-size: 0.85rem; color: ${variacionColor}; font-weight: 600;">
+          ${variacionTexto}
+        </div>
+      </div>
+    `;
     apuestasLista.appendChild(li);
   });
 }
