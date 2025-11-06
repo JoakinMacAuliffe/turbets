@@ -16,8 +16,8 @@ const apuestaSchema = new mongoose.Schema({
         enum: ['pleno', 'caballo', 'transversal', 'cuadro', 'seisena', 'docena', 'columna', 
                'dos-docenas', 'dos-columnas', 'rojo', 'negro', 'par', 'impar', 'falta', 'pasa']
     },
-    valorApostado: {  // NUEVO
-        type: mongoose.Schema.Types.Mixed  // Puede ser número, string, etc.
+    valorApostado: {
+        type: mongoose.Schema.Types.Mixed 
     },
     createdAt: {
         type: Date,
@@ -25,8 +25,7 @@ const apuestaSchema = new mongoose.Schema({
     },
     estado: {
         type: String,
-        default: 'En progreso',
-        enum: ['En progreso', 'Ganada', 'Perdida']
+        enum: ['Ganada', 'Perdida']
     },
     numeroGanador: {
         type: Number

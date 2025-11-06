@@ -1,52 +1,203 @@
 <!-- server/views/index.handlebars -->
 
+<!-- Hero Section -->
 <div class="fondo">
-  <div class="cuadrado">
-    <h1 class="Titulo">VEN Y JUEGA</h1>
-    <h2 class="Titulo">RULETA</h2>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="material-symbols-outlined">casino</span>
+      <span>Casino Online</span>
+    </div>
+    <h1 class="hero-title">
+      Bienvenido a<br/>
+      <span class="gradient-text">TURBETS</span>
+    </h1>
+    <p class="hero-subtitle">
+      Experimenta la emoción de la ruleta europea desde la comodidad de tu hogar
+    </p>
+    <div class="hero-buttons">
+      {{#if isLoggedIn}}
+        <a href="/perfil" class="btn-primary">
+          <span>Ir a Mi Perfil</span>
+          <span class="material-symbols-outlined">arrow_forward</span>
+        </a>
+      {{else}}
+        <a href="/registro" class="btn-primary">
+          <span>Comenzar Ahora</span>
+          <span class="material-symbols-outlined">arrow_forward</span>
+        </a>
+      {{/if}}
+      <a href="/info-app" class="btn-secondary">
+        <span class="material-symbols-outlined">info</span>
+        <span>Más Información</span>
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-number">37</span>
+        <span class="stat-label">Números</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">15</span>
+        <span class="stat-label">Tipos de Apuesta</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">35:1</span>
+        <span class="stat-label">Pago Máximo</span>
+      </div>
+    </div>
   </div>
 </div>
 
+<!-- Features Section -->
+<div class="features-section">
+  <h2 class="section-title">¿Por qué elegir Turbets?</h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">
+        <span class="material-symbols-outlined">verified</span>
+      </div>
+      <h3 class="feature-title">Juego Seguro</h3>
+      <p class="feature-description">
+        Todas las transacciones están protegidas y el juego es completamente transparente
+      </p>
+    </div>
+    
+    <div class="feature-card">
+      <div class="feature-icon">
+        <span class="material-symbols-outlined">speed</span>
+      </div>
+      <h3 class="feature-title">Rápido y Fácil</h3>
+      <p class="feature-description">
+        Interfaz intuitiva y respuesta instantánea en todas tus apuestas
+      </p>
+    </div>
+    
+    <div class="feature-card">
+      <div class="feature-icon">
+        <span class="material-symbols-outlined">account_balance_wallet</span>
+      </div>
+      <h3 class="feature-title">Depósitos y Retiros</h3>
+      <p class="feature-description">
+        Gestiona tu saldo fácilmente con transacciones instantáneas
+      </p>
+    </div>
+    
+    <div class="feature-card">
+      <div class="feature-icon">
+        <span class="material-symbols-outlined">history</span>
+      </div>
+      <h3 class="feature-title">Historial Completo</h3>
+      <p class="feature-description">
+        Revisa todas tus apuestas y transacciones en cualquier momento
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- How to Play Section -->
+<div class="how-to-play-section">
+  <h2 class="section-title">¿Cómo Jugar?</h2>
+  <div class="steps-container">
+    <div class="step-card">
+      <div class="step-number">1</div>
+      <h3 class="step-title">Regístrate</h3>
+      <p class="step-description">
+        Crea tu cuenta en minutos y recibe tu saldo inicial de $5000 para comenzar
+      </p>
+    </div>
+    
+    <div class="step-arrow">
+      <span class="material-symbols-outlined">arrow_forward</span>
+    </div>
+    
+    <div class="step-card">
+      <div class="step-number">2</div>
+      <h3 class="step-title">Elige tu Apuesta</h3>
+      <p class="step-description">
+        Selecciona entre 15 tipos de apuestas diferentes y el monto que deseas apostar
+      </p>
+    </div>
+    
+    <div class="step-arrow">
+      <span class="material-symbols-outlined">arrow_forward</span>
+    </div>
+    
+    <div class="step-card">
+      <div class="step-number">3</div>
+      <h3 class="step-title">Gira la Ruleta</h3>
+      <p class="step-description">
+        Haz clic en "Girar Ruleta" y observa dónde cae la bola. ¡Puede ser tu día de suerte!
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Game Rules Section -->
 <div class="text-reglas">
   <div class="Reglas">
-    <h1>Juego para mayores de 18 años</h1>
+    <div class="rules-header">
+      <span class="material-symbols-outlined rules-icon">gavel</span>
+      <h2>Reglas del Juego</h2>
+    </div>
+    
+    <div class="age-warning">
+      <span class="material-symbols-outlined">18_up_rating</span>
+      <strong>Juego para mayores de 18 años</strong>
+    </div>
+
     <p class="parrafo-reglas">
-      En cada partida el crupier lanza una bola sobre la ruleta en movimiento,
-      después de que la bola gire varias vueltas caerá sobre una de las casillas
-      de la ruleta. El objetivo del juego es predecir en que casilla caerá la
-      bola.
+      <strong>Objetivo:</strong> El objetivo del juego es predecir en qué casilla caerá la bola
+      después de que el crupier la lance sobre la ruleta en movimiento.
     </p>
 
     <p class="parrafo-reglas">
-      El crupier anuncia el inicio de una nueva partida diciendo “hagan juego”,
-      en ese momento las apuestas para la siguiente partida quedan abiertas, los
-      jugadores podrán realizar sus apuestas sobre el tapete hasta que el
-      crupier cierre las apuestas diciendo “no va más”. Después de cerrar las
-      apuestas, el crupier lanzará la bola, cuando la bola se detenga en alguna
-      de las casillas, el crupier anunciará el numero ganador y las apuestas
-      ganadoras, seguidamente procederá a retirar las apuestas perdedoras y a
-      pagar las apuestas ganadoras.
+      <strong>Cómo funciona:</strong> Cuando comienza una nueva partida, podrás realizar tus apuestas 
+      sobre el tapete eligiendo el tipo de apuesta y el monto. Una vez realizadas todas las apuestas, 
+      se lanzará la bola. Cuando la bola se detenga en alguna casilla, se anunciará el número ganador 
+      y se procesarán automáticamente los pagos correspondientes.
     </p>
+    
+    <div class="bet-types-info">
+      <h3>Tipos de Apuestas Disponibles:</h3>
+      <ul class="bet-types-list">
+        <li><strong>Pleno (35:1)</strong> - Apuesta a un solo número</li>
+        <li><strong>Caballo (17:1)</strong> - Apuesta a 2 números adyacentes</li>
+        <li><strong>Transversal (11:1)</strong> - Apuesta a 3 números en línea</li>
+        <li><strong>Cuadro (8:1)</strong> - Apuesta a 4 números en cuadrado</li>
+        <li><strong>Seisena (5:1)</strong> - Apuesta a 6 números</li>
+        <li><strong>Docena/Columna (2:1)</strong> - Apuesta a 12 números</li>
+        <li><strong>Rojo/Negro, Par/Impar, Falta/Pasa (1:1)</strong> - Apuestas simples</li>
+      </ul>
+    </div>
   </div>
 </div>
 
+<!-- CTA Section -->
 <div class="Ruleta">
-  <div class="card-wrapper">
-    <ul class="ruleta-list">
-      <li class="ruleta-item">
-        <a href="/ruleta" class="ruleta-link">
-          <img
-            src="/images/juegos-casino-3.jpg"
-            alt="Ruleta"
-            class="ruleta-img"
-          />
-          <p class="badge">Acierta la casilla y gana dinero!</p>
-          <h1 class="ruleta-title">Juegos</h1>
-          <button class="ruleta-button material-symbols-outlined">
-            arrow_forward
-          </button>
-        </a>
-      </li>
-    </ul>
+  <div class="cta-section">
+    <h2 class="cta-title">¿Listo para comenzar?</h2>
+    <p class="cta-subtitle">Únete a Turbets y experimenta la emoción de la ruleta europea</p>
+    <div class="card-wrapper">
+      <ul class="ruleta-list">
+        <li class="ruleta-item">
+          <a href="/ruleta" class="ruleta-link">
+            <img
+              src="/images/juegos-casino-3.jpg"
+              alt="Ruleta"
+              class="ruleta-img"
+            />
+            <div class="card-overlay">
+              <span class="badge">¡Acierta la casilla y gana dinero!</span>
+              <h3 class="ruleta-title">Ruleta Europea</h3>
+              <p class="card-description">37 números • 15 tipos de apuesta • Pagos hasta 35:1</p>
+              <button class="ruleta-button">
+                <span>Jugar Ahora</span>
+                <span class="material-symbols-outlined">arrow_forward</span>
+              </button>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>

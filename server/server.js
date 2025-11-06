@@ -162,15 +162,38 @@ app.use((req, res, next) => {
 
 async function requireAuth(req, res, next) {
   try {
-    if (!req.signedCookies.user) return res.redirect("/acceso");
+    if (!req.signedCookies.user) {
+      // Guardar la URL original donde el usuario quería ir
+      res.cookie("redirectAfterLogin", req.originalUrl, {
+        signed: true,
+        httpOnly: true,
+        sameSite: "lax",
+        maxAge: 10 * 60 * 1000, // Expira en 10 minutos
+      });
+      return res.redirect("/acceso");
+    }
 
     const session = JSON.parse(req.signedCookies.user);
-    if (!session?.id) return res.redirect("/acceso");
+    if (!session?.id) {
+      res.cookie("redirectAfterLogin", req.originalUrl, {
+        signed: true,
+        httpOnly: true,
+        sameSite: "lax",
+        maxAge: 10 * 60 * 1000,
+      });
+      return res.redirect("/acceso");
+    }
 
     // Traer informacion desde MongoDB
     const usuario = await User.findById(session.id).lean();
     if (!usuario) {
       res.clearCookie("user");
+      res.cookie("redirectAfterLogin", req.originalUrl, {
+        signed: true,
+        httpOnly: true,
+        sameSite: "lax",
+        maxAge: 10 * 60 * 1000,
+      });
       return res.redirect("/acceso");
     }
 
@@ -255,7 +278,7 @@ app.post("/registro", async (req, res) => {
       email,
       passwordHash,
       fechaNacimiento,
-      saldo: 0,
+      saldo: 5000,
     });
 
     await newUser.save();
@@ -313,7 +336,13 @@ app.post("/login", async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000, // La sesion dura 7 dias
     });
 
-    return res.redirect("/perfil");
+    // Verificar si hay una URL de redirección guardada
+    const redirectUrl = req.signedCookies.redirectAfterLogin || "/perfil";
+    
+    // Limpiar la cookie de redirección
+    res.clearCookie("redirectAfterLogin");
+
+    return res.redirect(redirectUrl);
   } catch (error) {
     console.error("Error al iniciar sesión:", error);
     return renderAcceso("Error al iniciar sesión. Por favor intente de nuevo.");
@@ -454,7 +483,6 @@ app.post("/apuesta", requireAuth, async (req, res) => {
       monto: monto,
       tipoApuesta: tipoApuesta,
       valorApostado: valor,
-      estado: 'En progreso'
     });
     await apuesta.save();
 

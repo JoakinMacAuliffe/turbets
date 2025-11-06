@@ -236,7 +236,7 @@ function actualizarHistorial(numero, gano, monto, pago = 0) {
   
   const li = document.createElement('li');
   li.className = `stat-item ${color}`;
-  li.innerHTML = `${numero} <span class="color-label">${colorLabel}</span>`;
+  li.innerHTML = `${numero} - ${colorLabel}`;
   numerosLista.insertBefore(li, numerosLista.firstChild);
   
   while (numerosLista.children.length > 5) {
@@ -301,7 +301,7 @@ if (window.ultimosNumerosData && window.ultimosNumerosData.length > 0) {
     const colorLabel = (numero===0) ? 'Verde' : (isRed(numero) ? 'Rojo' : 'Negro');
     const li = document.createElement('li');
     li.className = `stat-item ${color}`;
-    li.innerHTML = `${numero} <span class="color-label">${colorLabel}</span>`;
+    li.innerHTML = `${numero} - ${colorLabel}`;
     numerosLista.appendChild(li);
   });
 }

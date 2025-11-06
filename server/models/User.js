@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
     },
     saldo: {
         type: Number,
-        default: 0
+        default: 5000
     },
     createdAt: {
         type: Date,
