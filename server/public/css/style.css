@@ -41,7 +41,7 @@ input {
   padding: 0.5rem;
 }
 
-/* Spacers */
+
 
 .consejo-destacado {
   font-weight: bold;
@@ -59,7 +59,7 @@ input {
   
 }
 
-/* Estructura del header */
+
 
 header,
 .header {
@@ -79,7 +79,7 @@ header,
   box-sizing: border-box;
 }
 
-/* Botones izquierda header */
+
 
 .nav-left {
   display: flex;
@@ -103,7 +103,7 @@ header,
   text-shadow: 0 0 8px rgba(218, 165, 32, 0.5);
 }
 
-/* Logo del header */
+
 
 .header-logo {
   display: flex;
@@ -136,7 +136,7 @@ header,
   filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.8));
 }
 
-/* Botones derecha header */
+
 
 .nav {
   display: flex;
@@ -145,7 +145,7 @@ header,
   justify-content: flex-end;
 }
 
-/* Boton del header derecha */
+
 
 .button {
   background: linear-gradient(135deg, #daa520 0%, #b8860b 100%);
@@ -173,7 +173,7 @@ header,
   cursor: pointer;
 }
 
-/* Contenedores */
+
 
 .container form {
   display: flex;
@@ -191,7 +191,7 @@ header,
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 1.5rem; /* más ajustado para caber en una pantalla */
+  margin-top: 1.5rem; 
 }
 
 .container-registro form {
@@ -205,7 +205,7 @@ header,
   gap: 0.4rem;
 }
 
-/* Hacer campos de registro más compactos para evitar desplazamiento */
+
 .container-registro .campo-texto {
   height: 2.5rem;
   font-size: 0.95rem;
@@ -230,7 +230,7 @@ header,
   max-width: 10rem;
 }
 
-/* Compresión extra para viewports cortos para que la página no se desplace */
+
 @media (max-height: 740px) {
   .container-registro {
     margin-top: 0.25rem;
@@ -259,7 +259,7 @@ header,
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 1.5rem; /* mantener despejado del header fijo */
+  margin-top: 1.5rem; 
 }
 
 .container-login form {
@@ -295,7 +295,7 @@ header,
   }
 }
 
-/* Campos de login/registro */
+
 
 .campo-texto {
   display: block;
@@ -333,7 +333,7 @@ header,
   display: block;
 }
 
-/* Botones */
+
 
 .olvidar-password-button {
   color: goldenrod;
@@ -393,7 +393,7 @@ header,
   box-shadow: 0 4px 16px rgba(218, 165, 32, 0.5);
 }
 
-/* side bar */
+
 
 .sidebar {
   position: fixed;
@@ -501,7 +501,7 @@ header,
   border-color: rgba(220, 53, 69, 0.5) !important;
 }
 
-/* Fin side bar */
+
 
 body.info_app {
   display: flex;
@@ -578,9 +578,9 @@ body.info_app {
   margin-top: 50px;
 }
 
-/* Ruleta */
 
-/* Estilos para página de ruleta moderna */
+
+
 .ruleta-page-wrapper {
   padding: 2rem;
   max-width: 1400px;
@@ -677,7 +677,7 @@ body.info_app {
   box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
 }
 
-/* Sección de Consejos */
+
 .consejos-section {
   margin-bottom: 4rem;
 }
@@ -750,7 +750,7 @@ body.info_app {
   margin: 0;
 }
 
-/* Sección de Tabla de Apuestas */
+
 .apuestas-section {
   margin-bottom: 4rem;
 }
@@ -802,7 +802,7 @@ body.info_app {
   border-bottom: none;
 }
 
-/* Estilos antiguos de ruleta - mantener por compatibilidad */
+
 .ruleta-list {
   padding: 0;
   margin: 0;
@@ -891,17 +891,17 @@ body.info_app {
   padding: 2rem;
 }
 
-/* Fin Ruleta */
 
-/* Tabla de transacciones */
+
+
 
 .transacciones-container {
   padding: 2rem 3rem;
   max-width: 1400px;
   margin: 0 auto;
-  margin-left: 240px; /* Desplazar por ancho de sidebar */
-  margin-right: 0; /* Permitir centrado en espacio restante */
-  width: calc(100% - 240px); /* Usar ancho restante después del sidebar */
+  margin-left: 240px; 
+  margin-right: 0; 
+  width: calc(100% - 240px); 
 }
 
 .busqueda-trans {
@@ -1024,7 +1024,7 @@ body.info_app {
   background-color: rgba(218, 165, 32, 0.15);
 }
 
-/* Estado vacío */
+
 .contenido tbody tr td[colspan] {
   text-align: center;
   padding: 3rem;
@@ -1032,8 +1032,8 @@ body.info_app {
   font-style: italic;
 }
 
-/*Fin tabla transacciones*/
-/*Tabla Ruleta*/
+
+
 
 .contenido-ruleta {
   border-collapse: collapse;
@@ -1068,7 +1068,7 @@ body.info_app {
   border-bottom: 1px solid black;
 }
 
-/* Contenedor de Juego */
+
 
 .game-page-container {
   display: flex;
@@ -1260,7 +1260,7 @@ body.info_app {
   color: #1a1a1a;
 }
 
-/* Bet Amount in Header */
+
 .bet-amount-header {
   display: flex;
   align-items: center;
@@ -1379,7 +1379,7 @@ body.info_app {
   display: block;
 }
 
-/* Estilos antiguos - mantener por compatibilidad */
+
 .juego-container{
   display: block;
   justify-content: center;
@@ -1462,11 +1462,11 @@ body.info_app {
   right:30px;
 }
 
-/* Fin contenedor de juego */
 
-/* ======== LANDING PAGE IMPROVEMENTS ======== */
 
-/* Hero Section */
+
+
+
 .fondo {
   background-image: url("/images/casino.jpg");
   background-repeat: no-repeat;
@@ -1609,7 +1609,7 @@ body.info_app {
   letter-spacing: 0.5px;
 }
 
-/* Features Section */
+
 .features-section {
   max-width: 1200px;
   margin: 4rem auto;
@@ -1677,7 +1677,7 @@ body.info_app {
   margin: 0;
 }
 
-/* How to Play Section */
+
 .how-to-play-section {
   max-width: 1200px;
   margin: 5rem auto;
@@ -1751,7 +1751,7 @@ body.info_app {
   font-size: 2.5rem;
 }
 
-/* Enhanced Rules Section */
+
 .text-reglas {
   display: flex;
   justify-content: center;
@@ -1840,7 +1840,7 @@ body.info_app {
   color: goldenrod;
 }
 
-/* CTA Section */
+
 .cta-section {
   max-width: 800px;
   margin: 0 auto;
@@ -1905,7 +1905,7 @@ body.info_app {
   margin: 0.75rem 0 1.25rem;
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
   .hero-content {
     padding: 3rem 2rem;
@@ -1932,15 +1932,15 @@ body.info_app {
   }
 }
 
-/* Estilos de Página de Perfil */
+
 
 .profile-page-container {
   padding: 2rem 3rem;
   max-width: 1200px;
   margin: 0 auto;
-  margin-left: 240px; /* Shift by sidebar width */
-  margin-right: 0; /* Allow centering in remaining space */
-  width: calc(100% - 240px); /* Use remaining width after sidebar */
+  margin-left: 240px; 
+  margin-right: 0; 
+  width: calc(100% - 240px); 
 }
 
 .profile-header {
@@ -2139,7 +2139,7 @@ body.info_app {
   box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
 }
 
-/* Estilos para formulario de cambiar contraseña */
+
 .form-title {
   color: goldenrod;
   text-align: center;
@@ -2175,7 +2175,7 @@ body.info_app {
   text-shadow: 0 0 8px rgba(218, 165, 32, 0.5);
 }
 
-/* Estilos antiguos de perfil - mantenidos por compatibilidad */
+
 .info-perfil {
   display: flex;
   position: relative;
@@ -2236,9 +2236,9 @@ body.info_app {
   padding: 2rem 3rem;
   max-width: 1400px;
   margin: 0 auto;
-  margin-left: 240px; /* Desplazar por ancho de sidebar */
-  margin-right: 0; /* Permitir centrado en espacio restante */
-  width: calc(100% - 240px); /* Usar ancho restante después del sidebar */
+  margin-left: 240px; 
+  margin-right: 0; 
+  width: calc(100% - 240px); 
 }
 
 .page-header {
@@ -2424,7 +2424,7 @@ body.info_app {
   color: #51cf66;
 }
 
-/* Estilos antiguos - mantenidos por compatibilidad */
+
 .container-deposito {
   width: 90%;
   max-width: 550px;
@@ -2505,11 +2505,11 @@ body.info_app {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
-/* Fin Container Deposito */
 
-/*Container Estado */
 
-/* Estilos antiguos de estadísticas - mantener por compatibilidad */
+
+
+
 .flexbox{
   display: flex;
   justify-content: space-between;
@@ -2560,14 +2560,14 @@ body.info_app {
   background: #e0e0e0;
 }
 
-/* Enhanced roulette styling */
+
 :root{
   --red: #c1121f;
   --black: #000000;
   --green: #06d6a0;
-  --rim: #d4af37; /* Brighter gold rim */
+  --rim: #d4af37; 
   --accent: #FFD700;
-  --wheel-size: min(60vmin, 600px); /* Larger wheel for 1080p */
+  --wheel-size: min(60vmin, 600px); 
 }
 
 .roulette-wrap { 
@@ -2576,7 +2576,7 @@ body.info_app {
   height: var(--wheel-size); 
   margin: 0 auto;
   flex-shrink: 0;
-  /* Add glowing effect around wheel */
+  
   filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.3));
   padding: 20px;
 }
@@ -2678,7 +2678,7 @@ body.info_app {
   50% { opacity: 0.7; }
 }
 
-/* Bet Input Container */
+
 .bet-input-container {
   margin-top: 0;
   padding: 0.75rem;
@@ -2746,7 +2746,7 @@ body.info_app {
   color: rgba(255, 255, 255, 0.3);
 }
 
-/* Remove number input arrows */
+
 .bet-input::-webkit-outer-spin-button,
 .bet-input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -2789,7 +2789,7 @@ body.info_app {
   box-shadow: 0 2px 6px rgba(218, 165, 32, 0.2);
 }
 
-/* Bet Type Selector */
+
 .bet-type-selector {
   margin-top: 0;
   padding: 0.75rem;
@@ -2826,7 +2826,7 @@ body.info_app {
   flex-shrink: 0;
 }
 
-/* Estilo de scrollbar para los botones de apuestas */
+
 .bet-type-buttons::-webkit-scrollbar {
   width: 6px;
 }
@@ -3025,7 +3025,7 @@ body.info_app {
   overflow: visible;
 }
 
-/* Betting controls wrapper - now in left sidebar below estado */
+
 .betting-controls-wrapper {
   grid-column: 1;
   grid-row: 1;
@@ -3036,7 +3036,7 @@ body.info_app {
   margin-top: 8.5rem;
 }
 
-/* Monto de apuesta también en la izquierda */
+
 .bet-amount-wrapper {
   grid-column: 1;
   grid-row: 1;
@@ -3044,7 +3044,7 @@ body.info_app {
   margin-top: 31rem;
 }
 
-/* Compact stat cards */
+
 .stat-card {
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
   backdrop-filter: blur(15px);
@@ -3053,7 +3053,7 @@ body.info_app {
   padding: 0.75rem;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  /* Altura fija para exactamente 5 items: título (2.5rem) + 5 items (2rem cada uno) + padding (1.5rem) */
+  
   height: fit-content;
   max-height: none;
   overflow: hidden;
@@ -3089,7 +3089,7 @@ body.info_app {
   margin: 0;
   padding: 0;
   list-style: none;
-  min-height: 10rem; /* Espacio para 5 items */
+  min-height: 10rem; 
 }
 
 .stat-item, .bet-item {
@@ -3105,7 +3105,7 @@ body.info_app {
   font-size: 0.85rem;
 }
 
-/* Responsive layout */
+
 @media (max-width: 1400px) {
   .game-page-container {
     height: auto;
@@ -3178,7 +3178,7 @@ body.info_app {
   }
 }
 
-/* Enhanced spin button */
+
 .spin-button {
   padding: 1.25rem 3rem;
   background: linear-gradient(135deg, #28a745 0%, #20c997 50%, #17a2b8 100%);
@@ -3232,7 +3232,7 @@ body.info_app {
   transform: none;
 }
 
-/* Enhanced stat cards */
+
 .stat-card {
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
   backdrop-filter: blur(15px);

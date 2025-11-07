@@ -27,7 +27,21 @@ mongoose
   })
   .catch((err) => {
     console.error("Error conectando a MongoDB", err);
+    process.exit(1);
   });
+
+// Manejadores de reconexión de MongoDB
+mongoose.connection.on('disconnected', () => {
+  console.warn('MongoDB desconectado. Intentando reconectar...');
+});
+
+mongoose.connection.on('reconnected', () => {
+  console.log('MongoDB reconectado exitosamente');
+});
+
+mongoose.connection.on('error', (err) => {
+  console.error('Error de MongoDB:', err);
+});
 
 const User = require("./models/User");
 const Transaction = require("./models/Transaction");
@@ -256,6 +270,37 @@ app.post("/registro", async (req, res) => {
     return renderRegistro("Las contraseñas no coinciden");
   }
 
+  // Validaciones adicionales
+  // Email formato
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return renderRegistro("Por favor ingrese un correo electrónico válido");
+  }
+
+  // Password longitud mínima
+  if (typeof password !== 'string' || password.length < 6) {
+    return renderRegistro("La contraseña debe tener al menos 6 caracteres");
+  }
+
+  // Username y fullname mínimos
+  if (typeof username !== 'string' || username.trim().length < 3) {
+    return renderRegistro("El nombre de usuario debe tener al menos 3 caracteres");
+  }
+  if (typeof fullname !== 'string' || fullname.trim().length < 3) {
+    return renderRegistro("Por favor ingrese su nombre completo");
+  }
+
+  // Fecha de nacimiento -> validar formato y edad >= 18
+  const nacimiento = new Date(fechaNacimiento);
+  if (Number.isNaN(nacimiento.getTime())) {
+    return renderRegistro("Fecha de nacimiento inválida");
+  }
+  const edadMs = Date.now() - nacimiento.getTime();
+  const edad = Math.abs(new Date(edadMs).getUTCFullYear() - 1970);
+  if (edad < 18) {
+    return renderRegistro("Debes ser mayor de 18 años para registrarte");
+  }
+
   try {
     const emailExists = await User.findOne({ email });
     // Verificar si el email ya está registrado
@@ -297,7 +342,7 @@ app.post("/registro", async (req, res) => {
 
 // Ruta POST para inicio de sesión
 app.post("/login", async (req, res) => {
-  const { email, password } = req.body;
+  let { email, password } = req.body;
 
   function renderAcceso(error) {
     return res.render("acceso", {
@@ -309,6 +354,20 @@ app.post("/login", async (req, res) => {
   // Verificar campos vacios
   if (!email || !password) {
     return renderAcceso("Por favor ingrese email y contraseña");
+  }
+
+  // Trim y normalizar email
+  email = typeof email === 'string' ? email.trim().toLowerCase() : '';
+  
+  // Validar formato de email
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return renderAcceso("Por favor ingrese un correo electrónico válido");
+  }
+
+  // Validar que password sea string y tenga longitud razonable
+  if (typeof password !== 'string' || password.length < 1 || password.length > 128) {
+    return renderAcceso("Contraseña inválida");
   }
 
   try {
@@ -420,7 +479,7 @@ app.post("/retiro", requireAuth, async (req, res) => {
       });
     }
 
-    // Solo actualiza si hay saldo suficiente (condición atómica)
+    // Solo actualiza si hay saldo suficiente
     const usuarioActualizado = await User.findOneAndUpdate(
       { _id: res.locals.user.id, saldo: { $gte: amount } },
       { $inc: { saldo: -amount } },
@@ -1062,6 +1121,18 @@ app.get("/historial-apuestas", requireAuth, async (req, res) => {
 });
 
 // Configuracion de puerto
+
+// Manejadores de errores no capturados
+process.on('uncaughtException', (err) => {
+  console.error('Error no capturado:', err);
+  console.error('Stack:', err.stack);
+  // No salir del proceso, PM2 lo manejará
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Promesa rechazada no manejada:', reason);
+  console.error('Promesa:', promise);
+});
 
 app.listen(PORT, () => {
   console.log("Server corriendo en http://107.20.221.33:" + PORT);
