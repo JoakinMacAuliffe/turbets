@@ -1,0 +1,309 @@
+const express = require('express');
+const router = express.Router();
+
+const User = require('../backend/models/User');
+const Transaction = require('../backend/models/Transaction');
+const Apuesta = require('../backend/models/Apuesta');
+
+// Formatear fechas en UTC
+function formatDateUTC(dateInput) {
+  try {
+    const d = new Date(dateInput);
+    if (Number.isNaN(d.getTime())) return '';
+    const dd = String(d.getUTCDate()).padStart(2, '0');
+    const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
+    const yyyy = d.getUTCFullYear();
+    return `${dd}/${mm}/${yyyy}`;
+  } catch (_) {
+    return '';
+  }
+}
+
+// Middleware de autenticación para el frontend
+async function requireAuth(req, res, next) {
+  try {
+    if (!req.signedCookies.user) {
+      // Guardar la URL original donde el usuario quería ir
+      res.cookie('redirectAfterLogin', req.originalUrl, {
+        signed: true,
+        httpOnly: true,
+        sameSite: 'lax',
+        maxAge: 10 * 60 * 1000, // Expira en 10 minutos
+      });
+      return res.redirect('/acceso');
+    }
+
+    const session = JSON.parse(req.signedCookies.user);
+    if (!session?.id) {
+      res.cookie('redirectAfterLogin', req.originalUrl, {
+        signed: true,
+        httpOnly: true,
+        sameSite: 'lax',
+        maxAge: 10 * 60 * 1000,
+      });
+      return res.redirect('/acceso');
+    }
+
+    // Traer informacion desde MongoDB
+    const usuario = await User.findById(session.id).lean();
+    if (!usuario) {
+      res.clearCookie('user');
+      res.cookie('redirectAfterLogin', req.originalUrl, {
+        signed: true,
+        httpOnly: true,
+        sameSite: 'lax',
+        maxAge: 10 * 60 * 1000,
+      });
+      return res.redirect('/acceso');
+    }
+
+    res.locals.user = {
+      id: usuario._id.toString(),
+      username: usuario.username,
+      fullname: usuario.fullname,
+      email: usuario.email,
+      fechaNacimiento: usuario.fechaNacimiento,
+      saldo: usuario.saldo,
+    };
+    res.locals.isLoggedIn = true;
+    next();
+  } catch (err) {
+    console.error('Auth error:', err);
+    res.clearCookie('user');
+    return res.redirect('/acceso');
+  }
+}
+
+// RUTAS GET
+
+router.get('/', (req, res) => {
+  res.render('index', { pageTitle: 'Turbets - Inicio' });
+});
+
+router.get('/acceso', (req, res) =>
+  res.render('acceso', { pageTitle: 'Turbets - Acceso' })
+);
+
+router.get('/recuperar-contrasena', (req, res) => {
+  res.render('recuperar-contrasena', { 
+    pageTitle: 'Turbets - Recuperar Contraseña',
+    showPasswordFields: false
+  });
+});
+
+router.get('/info-app', (req, res) =>
+  res.render('info-app', {
+    pageTitle: 'Turbets - Información',
+    bodyClass: 'info_app',
+  })
+);
+
+router.get('/registro', (req, res) =>
+  res.render('registro', { pageTitle: 'Turbets - Registro' })
+);
+
+router.get('/ruleta', requireAuth, (req, res) =>
+  res.render('ruleta', { pageTitle: 'Turbets - Ruleta' })
+);
+
+router.get('/perfil', requireAuth, (req, res) => {
+  const u = res.locals.user || {};
+  const birthDate = u.fechaNacimiento ? formatDateUTC(u.fechaNacimiento) : '';
+  res.render('perfil', {
+    pageTitle: 'Turbets - Mi Perfil',
+    fullname: u.fullname,
+    username: u.username,
+    email: u.email,
+    birthDate,
+    saldo: u.saldo,
+  });
+});
+
+router.get('/cambiar-contrasena', requireAuth, (req, res) => {
+  res.render('cambiar-contrasena', {
+    pageTitle: 'Turbets - Cambiar Contraseña',
+    isLoggedIn: true
+  });
+});
+
+router.get('/deposito', requireAuth, (req, res) => {
+  const u = res.locals.user || {};
+  res.render('realizar-transaccion', {
+    pageTitle: 'Turbets - Depositar',
+    saldo: u.saldo,
+  });
+});
+
+router.get('/juego', requireAuth, async (req, res) => {
+  try {
+    const u = res.locals.user || {};
+    
+    // Obtener últimos 5 números ganadores (globales, de todas las apuestas)
+    const ultimosNumerosData = await Apuesta.find({ 
+      numeroGanador: { $ne: null }
+    })
+    .sort({ createdAt: -1 })
+    .limit(5)
+    .select('numeroGanador')
+    .lean();
+
+    const ultimosNumeros = ultimosNumerosData.map(a => a.numeroGanador);
+
+    // Obtener últimas 5 apuestas del usuario actual
+    const ultimasApuestas = await Apuesta.find({ 
+      user_id: u.id,
+      numeroGanador: { $ne: null }
+    })
+    .sort({ createdAt: -1 })
+    .limit(5)
+    .lean();
+
+    const apuestasFormateadas = ultimasApuestas.map(a => ({
+      tipoApuesta: a.tipoApuesta,
+      monto: parseFloat(a.monto.toString()),
+      estado: a.estado,
+      numeroGanador: a.numeroGanador,
+      pago: a.pago ? parseFloat(a.pago.toString()) : 0
+    }));
+
+    res.render('juego', {
+      pageTitle: 'Turbets - Juego',
+      saldo: u.saldo,
+      ultimosNumeros: JSON.stringify(ultimosNumeros),
+      ultimasApuestas: JSON.stringify(apuestasFormateadas)
+    });
+  } catch (error) {
+    console.error('Error al cargar juego:', error);
+    res.render('juego', {
+      pageTitle: 'Turbets - Juego',
+      saldo: res.locals.user?.saldo || 0,
+      ultimosNumeros: JSON.stringify([]),
+      ultimasApuestas: JSON.stringify([])
+    });
+  }
+});
+
+router.get('/transacciones', requireAuth, async (req, res) => {
+  try {
+    // Obtener datos para filtrar
+    const limit = parseInt(req.query.limit) || 50;
+    const type = req.query.type || '';
+    const dateFrom = req.query.dateFrom || '';
+    const dateTo = req.query.dateTo || '';
+
+    // Crear query
+    const query = { user_id: res.locals.user.id };
+    
+    // Filtrar por tipo
+    if (type) {
+      query.type = type;
+    }
+    
+    // Filtrar por fecha
+    if (dateFrom || dateTo) {
+      query.createdAt = {};
+      if (dateFrom) {
+        query.createdAt.$gte = new Date(dateFrom);
+      }
+      if (dateTo) {
+        const endDate = new Date(dateTo);
+        endDate.setHours(23, 59, 59, 999);
+        query.createdAt.$lte = endDate;
+      }
+    }
+
+    const transactions = await Transaction.find(query)
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .lean();
+
+    res.render('transacciones', {
+      pageTitle: 'Turbets - Transacciones',
+      transactions,
+      limit,
+      type,
+      dateFrom,
+      dateTo
+    });
+  } catch (error) {
+    console.error('Error importando transacciones:', error);
+    res.render('transacciones', {
+      pageTitle: 'Turbets - Transacciones',
+      transactions: [],
+      error: 'Error al cargar las transacciones'
+    });
+  }
+});
+
+router.get('/historial-apuestas', requireAuth, async (req, res) => {
+  try {
+    // Obtener datos para filtrar
+    const limit = parseInt(req.query.limit) || 50;
+    const estado = req.query.estado || '';
+    const tipoApuesta = req.query.tipoApuesta || '';
+    const dateFrom = req.query.dateFrom || '';
+    const dateTo = req.query.dateTo || '';
+
+    // Crear query
+    const query = { 
+      user_id: res.locals.user.id,
+      numeroGanador: { $ne: null } // Solo apuestas completadas
+    };
+    
+    // Filtrar por estado
+    if (estado) {
+      query.estado = estado;
+    }
+    
+    // Filtrar por tipo de apuesta
+    if (tipoApuesta) {
+      query.tipoApuesta = tipoApuesta;
+    }
+    
+    // Filtrar por fecha
+    if (dateFrom || dateTo) {
+      query.createdAt = {};
+      if (dateFrom) {
+        query.createdAt.$gte = new Date(dateFrom);
+      }
+      if (dateTo) {
+        const endDate = new Date(dateTo);
+        endDate.setHours(23, 59, 59, 999);
+        query.createdAt.$lte = endDate;
+      }
+    }
+
+    const apuestas = await Apuesta.find(query)
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .lean();
+
+    // Formatear montos y pagos
+    const apuestasFormateadas = apuestas.map(a => ({
+      ...a,
+      monto: a.monto ? parseFloat(a.monto.toString()) : 0,
+      pago: a.pago ? parseFloat(a.pago.toString()) : 0
+    }));
+
+    res.render('historial-apuestas', {
+      pageTitle: 'Turbets - Historial de Apuestas',
+      isLoggedIn: true,
+      apuestas: apuestasFormateadas,
+      limit,
+      estado,
+      tipoApuesta,
+      dateFrom,
+      dateTo
+    });
+  } catch (error) {
+    console.error('Error cargando historial de apuestas:', error);
+    res.render('historial-apuestas', {
+      pageTitle: 'Turbets - Historial de Apuestas',
+      isLoggedIn: true,
+      apuestas: [],
+      error: 'Error al cargar el historial de apuestas'
+    });
+  }
+});
+
+module.exports = router;
